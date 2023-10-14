@@ -2,6 +2,7 @@ const express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./config/db");
+const ApiResponse = require("./models/api_response");
 
 const app = express();
 const port = 5000;
@@ -16,6 +17,14 @@ app.use(
     credentials: true, // Enable cookies or authorization headers, if needed
   })
 );
+
+app.get("/api/helloworld", (req, res) => {
+  const sql = "SELECT * FROM users ";
+  const values = ["username", "password"];
+  db.query(sql, values, (err, results) => {
+    return res.json({ error: results });
+  });
+});
 // Define a route to retrieve data from MySQL under the /api path
 app.post("/api/users/signIn", (req, res) => {
   const { username, password } = req.body;
@@ -24,16 +33,17 @@ app.post("/api/users/signIn", (req, res) => {
 
   db.query(sql, values, (err, results) => {
     if (err) {
-      console.error("Error querying MySQL:", err);
-      return res.status(500).json({ error: "Error querying MySQL" });
+      const apiResponse = ApiResponse.failure(err);
+      return res.json(apiResponse);
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: "Row not found" });
+      const apiResponse = ApiResponse.failure("Invalid username or password");
+      return res.json(apiResponse);
     }
 
-    const row = results[0];
-    res.json(row);
+    const apiResponse = ApiResponse.success(results);
+    res.json(apiResponse);
   });
 });
 
