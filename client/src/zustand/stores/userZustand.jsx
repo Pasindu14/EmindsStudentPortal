@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { signInAction } from "../zustand/auth_action";
+import { signInAction } from "../actions/authActions";
 
 const useUserStore = create((set) => ({
   data: [],
@@ -11,10 +11,10 @@ const useUserStore = create((set) => ({
     try {
       const response = await signInAction(formData);
       const { status, data, error } = response.data;
-      if (status === "failure") {
-        setError(set, error);
-      } else {
+      if (status === "success") {
         setSuccess(set, data);
+      } else {
+        setError(set, error);
       }
     } catch (error) {
       setError(set, error);

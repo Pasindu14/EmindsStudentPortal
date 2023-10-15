@@ -4,11 +4,17 @@ import EmindsLogo from "../../assets/auth/eminds_logo.png";
 import CustomInput from "../../components/CustomInput";
 import { Form, Formik } from "formik";
 import { loginSchema } from "../../schemas/AuthSchema";
-import { useUserStore } from "../../zustand/User.jsx";
+import { useUserStore } from "../../zustand/stores/userZustand.jsx";
 import { errorToast } from "../../components/Toast";
 
 function Login() {
   const { loading, errorMessage, hasErrors, signIn } = useUserStore();
+
+  useEffect(() => {
+    if (hasErrors) {
+      errorToast(errorMessage);
+    }
+  }, [hasErrors, errorMessage]);
 
   useEffect(() => {
     if (hasErrors) {

@@ -3,3 +3,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.table-border {
+    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .rdt_TableRow:nth-child(odd) {
+    background-color: rgb(224, 224, 224); /* Or any color you prefer */
+  }

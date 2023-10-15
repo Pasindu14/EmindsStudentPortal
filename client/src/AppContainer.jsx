@@ -1,5 +1,7 @@
 import React from "react";
-import Login from "./pages/Login/Login";
+import Students from "./pages/Masters/Students";
+import Navbar from "./components/Navbar";
+import Card from "./components/Card";
 import { Provider } from "react-redux";
 
 import { useState, useEffect } from "react";
@@ -30,8 +32,13 @@ const AppContainer = () => {
   return (
     <div>
       <Provider store={store}>
-        <ToastContainer />
-        <Login />
+        <Navbar />
+        <div className="container mx-auto">
+          <ToastContainer />
+          <Card title="Manage Students">
+            <Students />
+          </Card>
+        </div>
       </Provider>
     </div>
   );
