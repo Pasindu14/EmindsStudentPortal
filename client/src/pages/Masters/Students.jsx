@@ -5,6 +5,7 @@ import { reactTableStyles } from "../../core/constants/styles";
 import CustomInput from "../../components/CustomInput";
 import { addStudentSchema } from "../../schemas/MasterSchema";
 import { Form, Formik } from "formik";
+import { errorToast } from "../../components/Toast";
 
 function Students() {
   const {
@@ -12,7 +13,6 @@ function Students() {
     errorMessage,
     hasErrors,
     getStudents,
-    studentData,
     addStudent,
     filter,
     filteredStudentData,
@@ -23,6 +23,12 @@ function Students() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (hasErrors) {
+      errorToast(errorMessage);
+    }
+  });
 
   async function handleFilter(event) {
     await filter(event.target.value);
@@ -81,7 +87,7 @@ function Students() {
                 address: "",
                 nic: "",
                 email: "",
-                dateOfBirth: new Date().toISOString().split("T")[0],
+                birthDay: new Date().toISOString().split("T")[0],
               }}
               validationSchema={addStudentSchema}
               onSubmit={async (values) => {
@@ -91,20 +97,20 @@ function Students() {
                 formData.append("address", values.address);
                 formData.append("nic", values.nic);
                 formData.append("email", values.email);
-                formData.append("dateOfBirth", values.dateOfBirth);
+                formData.append("birthDay", values.birthDay);
                 addStudent(formData);
               }}
             >
               {() => (
                 <Form>
                   <CustomInput label="Name" name="name" type="text" />
-                  <CustomInput label="Phone" name="phone" type="number" />
+                  <CustomInput label="Phone" name="phone" type="text" />
                   <CustomInput label="Address" name="address" type="text" />
                   <CustomInput label="NIC" name="nic" type="text" />
                   <CustomInput label="Email" name="email" type="email" />
                   <CustomInput
                     label="Date Of Birth"
-                    name="dateOfBirth"
+                    name="birthDay"
                     type="date"
                   />
 

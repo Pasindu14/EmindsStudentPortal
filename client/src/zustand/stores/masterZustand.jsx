@@ -40,7 +40,7 @@ const useStudentStore = create((set, get) => ({
     const filteredStudentData = get().studentData.filter(
       (student) =>
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
+        student.phoneNumber.includes(searchTerm.toLowerCase())
     );
 
     set({ filteredStudentData: filteredStudentData });

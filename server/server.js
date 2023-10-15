@@ -70,15 +70,15 @@ app.get("/api/masters/getStudents", (req, res) => {
 });
 
 app.post("/api/masters/addStudent", (req, res) => {
-  const { name, phoneNumber, address, nic, email, birthDay } = req.body;
-
+  const { name, phone, address, nic, email, birthDay } = req.body;
+  console.log(birthDay);
   // Validate the incoming data before running the SQL query
   // ...
 
   // Check if phoneNumber already exists
   const checkSql = "SELECT * FROM students WHERE phoneNumber = ?";
 
-  db.query(checkSql, [phoneNumber], (err, results) => {
+  db.query(checkSql, [phone], (err, results) => {
     if (err) {
       const apiResponse = ApiResponse.failure(err);
       return res.json(apiResponse);
@@ -96,13 +96,14 @@ app.post("/api/masters/addStudent", (req, res) => {
 
     db.query(
       insertSql,
-      [name, phoneNumber, address, nic, email, birthDay],
+      [name, phone, address, nic, email, birthDay],
       (err, results) => {
         if (err) {
           const apiResponse = ApiResponse.failure(err);
           return res.json(apiResponse);
         }
 
+        console.log(results);
         const apiResponse = ApiResponse.success(
           "New student record has been successfully added."
         );

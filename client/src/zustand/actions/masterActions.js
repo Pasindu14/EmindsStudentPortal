@@ -1,8 +1,8 @@
 import { API } from "../api/utils";
 
-export const getStudents = () => {
+export const getStudents = async () => {
   try {
-    const response = API.get("api/masters/getStudents", {
+    const response = await API.get("api/masters/getStudents", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -13,14 +13,14 @@ export const getStudents = () => {
   }
 };
 
-export const addStudent = (formData) => {
+export const addStudent = async (formData) => {
   try {
-    const response = API.post("api/masters/addStudent", formData, {
+    const response = await API.post("api/masters/addStudent", formData, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-
+    console.log(response);
     return response;
   } catch (error) {
     return error;
