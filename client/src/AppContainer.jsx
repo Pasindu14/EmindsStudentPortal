@@ -1,5 +1,5 @@
 import React from "react";
-import Students from "./pages/Masters/Students";
+import { Students } from "./pages/Masters/Students";
 import Navbar from "./components/Navbar";
 import Card from "./components/Card";
 import { Provider } from "react-redux";
@@ -33,12 +33,11 @@ const AppContainer = () => {
     <div>
       <Provider store={store}>
         <Navbar />
-        <div className="container mx-auto">
-          <ToastContainer />
-          <Card title="Manage Students">
-            <Students />
-          </Card>
-        </div>
+
+        <ToastContainer />
+        <Card title="MANAGE STUDENTS">
+          <Students />
+        </Card>
       </Provider>
     </div>
   );

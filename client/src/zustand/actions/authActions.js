@@ -13,3 +13,5 @@ export const signInAction = async (formData) => {
     return error;
   }
 };
+
+export const signOut = (async) => {};

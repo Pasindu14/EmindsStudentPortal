@@ -49,7 +49,7 @@ app.post("/api/users/signIn", (req, res) => {
 
 app.get("/api/masters/getStudents", (req, res) => {
   const sql = "SELECT * FROM students";
-
+  console.log(sql);
   db.query(sql, (err, results) => {
     if (err) {
       const apiResponse = ApiResponse.failure(err);
@@ -71,7 +71,7 @@ app.get("/api/masters/getStudents", (req, res) => {
 
 app.post("/api/masters/addStudent", (req, res) => {
   const { name, phone, address, nic, email, birthDay } = req.body;
-  console.log(birthDay);
+
   // Validate the incoming data before running the SQL query
   // ...
 
@@ -111,6 +111,32 @@ app.post("/api/masters/addStudent", (req, res) => {
       }
     );
   });
+});
+
+app.put("/api/masters/updateStudent", (req, res) => {
+  const { name, phone, address, nic, email, birthDay, auto_id } = req.body;
+
+  const updateSql = `
+    UPDATE students
+    SET name = ?, phoneNumber = ?, address = ?, nic = ?, email = ?, birthDay = ?
+    WHERE auto_id = ?;
+  `;
+
+  db.query(
+    updateSql,
+    [name, phone, address, nic, email, birthDay, auto_id],
+    (err, results) => {
+      if (err) {
+        const apiResponse = ApiResponse.failure(err);
+        return res.json(apiResponse);
+      }
+
+      const apiResponse = ApiResponse.success(
+        "Student record has been successfully updated."
+      );
+      res.json(apiResponse);
+    }
+  );
 });
 
 // Start the Express server

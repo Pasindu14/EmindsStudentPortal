@@ -10,5 +10,6 @@ export const errorToast = (message) => {
     draggable: true,
     progress: undefined,
     theme: "colored",
+    className: "toast-top",
   });
 };

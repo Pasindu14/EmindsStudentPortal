@@ -20,7 +20,19 @@ export const addStudent = async (formData) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const updateStudent = async (formData) => {
+  try {
+    const response = await API.put("/api/masters/updateStudent", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response;
   } catch (error) {
     return error;

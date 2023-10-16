@@ -1,5 +1,9 @@
 import { create } from "zustand";
-import { addStudent, getStudents } from "../actions/masterActions";
+import {
+  addStudent,
+  getStudents,
+  updateStudent,
+} from "../actions/masterActions";
 
 const useStudentStore = create((set, get) => ({
   studentData: [],
@@ -7,6 +11,12 @@ const useStudentStore = create((set, get) => ({
   loading: false,
   hasErrors: false,
   errorMessage: "",
+  selectedStudent: null,
+  setSelectedStudent: (student) => {
+    set(() => ({
+      selectedStudent: student,
+    }));
+  },
   getStudents: async () => {
     setInitial(set);
     try {
@@ -25,6 +35,20 @@ const useStudentStore = create((set, get) => ({
     setInitial(set);
     try {
       const response = await addStudent(formData);
+      const { status, data, error } = response.data;
+      if (status === "success") {
+        setDefaultSuccess(set, data);
+      } else {
+        setError(set, error);
+      }
+    } catch (error) {
+      setError(set, error);
+    }
+  },
+  updateStudent: async (formData) => {
+    setInitial(set);
+    try {
+      const response = await updateStudent(formData);
       const { status, data, error } = response.data;
       if (status === "success") {
         setDefaultSuccess(set, data);

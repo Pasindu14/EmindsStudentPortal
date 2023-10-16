@@ -5,6 +5,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       sans: ['"PT Sans"', "sans-serif"],
+      inter: ["Inter", "sans-serif"],
     },
   },
   plugins: [require("daisyui")],
