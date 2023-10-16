@@ -2,9 +2,14 @@ import { addStudentSchema } from "../../../schemas/MasterSchema";
 import { Form, Formik } from "formik";
 import CustomInput from "../../../components/CustomInput";
 
-export const AddStudentModal = ({ addStudent, loading }) => {
+export const AddStudentModal = ({ addStudent, loading ,addStudentModalRef}) => {
+
+  const closeAddModal = () => {
+    addStudentModalRef.current.close();
+  };
+
   return (
-    <dialog id="add_student_modal" className="modal">
+    <dialog id="add_student_modal" className="modal" ref={addStudentModalRef}>
       <div className="modal-box  rounded-none">
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}
@@ -33,6 +38,7 @@ export const AddStudentModal = ({ addStudent, loading }) => {
               formData.append("email", values.email);
               formData.append("birthDay", values.birthDay);
               addStudent(formData);
+              closeAddModal();
             }}
           >
             {() => (

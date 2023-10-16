@@ -10,7 +10,7 @@ const useStudentStore = create((set, get) => ({
   filteredStudentData: [],
   loading: false,
   hasErrors: false,
-  errorMessage: "",
+  statusMessage: "",
   selectedStudent: null,
   setSelectedStudent: (student) => {
     set(() => ({
@@ -18,12 +18,19 @@ const useStudentStore = create((set, get) => ({
     }));
   },
   getStudents: async () => {
-    setInitial(set);
+    set(() => ({
+      loading: true,
+    }));
     try {
       const response = await getStudents();
       const { status, data, error } = response.data;
       if (status === "success") {
-        setSuccess(set, data);
+        set(() => ({
+          hasErrors: false,
+          loading: false,
+          studentData: data,
+          filteredStudentData: data,
+        }));
       } else {
         setError(set, error);
       }
@@ -37,7 +44,12 @@ const useStudentStore = create((set, get) => ({
       const response = await addStudent(formData);
       const { status, data, error } = response.data;
       if (status === "success") {
-        setDefaultSuccess(set, data);
+        set(() => ({
+          hasErrors: false,
+          loading: false,
+          statusMessage: data,
+        }));
+        await get().getStudents();
       } else {
         setError(set, error);
       }
@@ -51,7 +63,12 @@ const useStudentStore = create((set, get) => ({
       const response = await updateStudent(formData);
       const { status, data, error } = response.data;
       if (status === "success") {
-        setDefaultSuccess(set, data);
+        set(() => ({
+          hasErrors: false,
+          loading: false,
+          statusMessage: data,
+        }));
+        await get().getStudents();
       } else {
         setError(set, error);
       }
@@ -66,36 +83,19 @@ const useStudentStore = create((set, get) => ({
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.phoneNumber.includes(searchTerm.toLowerCase())
     );
-
     set({ filteredStudentData: filteredStudentData });
   },
 }));
 
 function setInitial(set) {
-  set(() => ({ loading: true, errorMessage: "", hasErrors: false }));
-}
-
-function setSuccess(set, data) {
-  set(() => ({
-    hasErrors: false,
-    loading: false,
-    studentData: data,
-    filteredStudentData: data,
-  }));
-}
-
-function setDefaultSuccess(set, data) {
-  set(() => ({
-    hasErrors: false,
-    loading: false,
-  }));
+  set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
 function setError(set, error) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    errorMessage: error,
+    statusMessage: error,
   }));
 }
 

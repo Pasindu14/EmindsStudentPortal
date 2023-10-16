@@ -49,7 +49,6 @@ app.post("/api/users/signIn", (req, res) => {
 
 app.get("/api/masters/getStudents", (req, res) => {
   const sql = "SELECT * FROM students";
-  console.log(sql);
   db.query(sql, (err, results) => {
     if (err) {
       const apiResponse = ApiResponse.failure(err);
@@ -102,8 +101,6 @@ app.post("/api/masters/addStudent", (req, res) => {
           const apiResponse = ApiResponse.failure(err);
           return res.json(apiResponse);
         }
-
-        console.log(results);
         const apiResponse = ApiResponse.success(
           "New student record has been successfully added."
         );
