@@ -39,8 +39,8 @@ export function Students() {
   useHandleErrors(hasErrors, statusMessage);
 
   const handleFilter = useCallback(
-    async (event) => {
-      await filter(event.target.value);
+    (event) => {
+      filter(event.target.value);
     },
     [filter]
   );
@@ -49,7 +49,7 @@ export function Students() {
     getStudents();
   }, [getStudents]);
 
-  const handleButtonClick = (row) => {
+  const handleAddButtonClick = (row) => {
     showUpdateModal();
     setSelectedStudent(row);
   };
@@ -92,7 +92,7 @@ export function Students() {
           <div>
             <button
               className="btn btn-success btn-sm rounded-none text-white font-inter"
-              onClick={() => handleButtonClick(row)}
+              onClick={() => handleAddButtonClick(row)}
             >
               Update
             </button>

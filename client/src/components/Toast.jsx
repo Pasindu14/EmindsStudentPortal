@@ -1,29 +1,29 @@
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export const errorToast = (message) => {
-  return toast.error(message, {
-    position: "top-center",
-    autoClose: 1000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-    className: "toast-top",
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3500,
+  });
+
+  Toast.fire({
+    icon: "error",
+    title: message,
   });
 };
 
 export const successToast = (message) => {
-  return toast.success(message, {
-    position: "top-center",
-    autoClose: 1000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-    className: "toast-top",
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+
+  Toast.fire({
+    icon: "success",
+    title: message,
   });
 };

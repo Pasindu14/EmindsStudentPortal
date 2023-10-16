@@ -17,3 +17,12 @@
   .rdt_TableRow:nth-child(odd) {
     background-color: rgb(224, 224, 224); /* Or any color you prefer */
   }
+
+  .swal2-popup.swal2-toast {
+    padding: .5em 1em !important;
+    display: flex !important;
+    width: auto !important;
+}
+.swal2-popup.swal2-toast .swal2-title {
+    margin: .75em .25em !important;
+}

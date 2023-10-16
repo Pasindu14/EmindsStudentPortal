@@ -76,8 +76,7 @@ const useStudentStore = create((set, get) => ({
       setError(set, error);
     }
   },
-
-  filter: async (searchTerm) => {
+  filter: (searchTerm) => {
     const filteredStudentData = get().studentData.filter(
       (student) =>
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
