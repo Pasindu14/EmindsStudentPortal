@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback, useRef } from "react";
-import { addStudentSchema } from "../../../schemas/MasterSchema";
+import React from "react";
+import { addStudentSchema } from "../../../../schemas/MasterSchema";
 import { Form, Formik } from "formik";
-import CustomInput from "../../../components/CustomInput";
+import CustomInput from "../../../../components/CustomInput";
 
 export const UpdateStudentModel = ({loading,selectedStudent,updateStudent,updateStudentModalRef})=>{
 

@@ -1,36 +1,36 @@
 import { create } from "zustand";
 import {
-  addStudent,
-  getStudents,
-  removeStudent,
-  updateStudent,
-} from "../actions/masterActions";
+  addBatch,
+  getBatches,
+  removeBatch,
+  updateBatch,
+} from "../actions/masterActions"; // Make sure you have batchActions similar to masterActions
 
-const useStudentStore = create((set, get) => ({
-  studentData: [],
-  filteredStudentData: [],
+const useBatchStore = create((set, get) => ({
+  batchData: [],
+  filteredBatchData: [],
   loading: false,
   hasErrors: false,
   statusMessage: "",
-  selectedStudent: null,
-  setSelectedStudent: (student) => {
+  selectedBatch: null,
+  setSelectedBatch: (batch) => {
     set(() => ({
-      selectedStudent: student,
+      selectedBatch: batch,
     }));
   },
-  getStudents: async () => {
+  getBatches: async () => {
     set(() => ({
       loading: true,
     }));
     try {
-      const response = await getStudents();
+      const response = await getBatches();
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
           loading: false,
-          studentData: data,
-          filteredStudentData: data,
+          batchData: data,
+          filteredBatchData: data,
           statusMessage: "",
         }));
       } else {
@@ -40,10 +40,10 @@ const useStudentStore = create((set, get) => ({
       setError(set, error);
     }
   },
-  addStudent: async (formData) => {
+  addBatch: async (formData) => {
     setInitial(set);
     try {
-      const response = await addStudent(formData);
+      const response = await addBatch(formData);
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
@@ -51,7 +51,7 @@ const useStudentStore = create((set, get) => ({
           loading: false,
           statusMessage: data,
         }));
-        await get().getStudents();
+        await get().getBatches();
       } else {
         setError(set, error);
       }
@@ -59,10 +59,11 @@ const useStudentStore = create((set, get) => ({
       setError(set, error);
     }
   },
-  updateStudent: async (formData) => {
+  updateBatch: async (formData) => {
     setInitial(set);
     try {
-      const response = await updateStudent(formData);
+      const response = await updateBatch(formData);
+
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
@@ -70,7 +71,7 @@ const useStudentStore = create((set, get) => ({
           loading: false,
           statusMessage: data,
         }));
-        await get().getStudents();
+        await get().getBatches();
       } else {
         setError(set, error);
       }
@@ -78,10 +79,10 @@ const useStudentStore = create((set, get) => ({
       setError(set, error);
     }
   },
-  removeStudent: async (id) => {
+  removeBatch: async (id) => {
     setInitial(set);
     try {
-      const response = await removeStudent(id);
+      const response = await removeBatch(id);
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
@@ -89,7 +90,7 @@ const useStudentStore = create((set, get) => ({
           loading: false,
           statusMessage: data,
         }));
-        await get().getStudents();
+        await get().getBatches();
       } else {
         setError(set, error);
       }
@@ -98,12 +99,12 @@ const useStudentStore = create((set, get) => ({
     }
   },
   filter: (searchTerm) => {
-    const filteredStudentData = get().studentData.filter(
-      (student) =>
-        student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.phoneNumber.includes(searchTerm.toLowerCase())
+    const filteredBatchData = get().batchData.filter(
+      (batch) =>
+        batch.batch_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        batch.batch_no.includes(searchTerm)
     );
-    set({ filteredStudentData: filteredStudentData });
+    set({ filteredBatchData: filteredBatchData });
   },
 }));
 
@@ -119,4 +120,4 @@ function setError(set, error) {
   }));
 }
 
-export { useStudentStore };
+export { useBatchStore };

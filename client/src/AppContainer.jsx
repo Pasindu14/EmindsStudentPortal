@@ -1,11 +1,12 @@
 import React from "react";
-import { Students } from "./pages/Masters/Students";
+import { Batches } from "./pages/Masters/batch/Batch";
 import Navbar from "./components/Navbar";
 import Card from "./components/Card";
 import { Provider } from "react-redux";
 
 import { useState, useEffect } from "react";
 import createAppStore from "./redux/store";
+import { Courses } from "./pages/Masters/courses/Courses";
 
 const AppContainer = () => {
   const [store, setStore] = useState(null);
@@ -31,8 +32,8 @@ const AppContainer = () => {
     <div>
       <Provider store={store}>
         <Navbar />
-        <Card title="MANAGE STUDENTS">
-          <Students />
+        <Card title="MANAGE BATCHES">
+          <Batches />
         </Card>
       </Provider>
     </div>

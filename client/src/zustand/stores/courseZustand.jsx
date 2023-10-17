@@ -1,36 +1,36 @@
 import { create } from "zustand";
 import {
-  addStudent,
-  getStudents,
-  removeStudent,
-  updateStudent,
+  addCourse,
+  getCourses,
+  removeCourse,
+  updateCourse,
 } from "../actions/masterActions";
 
-const useStudentStore = create((set, get) => ({
-  studentData: [],
-  filteredStudentData: [],
+const useCourseStore = create((set, get) => ({
+  courseData: [],
+  filteredCourseData: [],
   loading: false,
   hasErrors: false,
   statusMessage: "",
-  selectedStudent: null,
-  setSelectedStudent: (student) => {
+  selectedCourse: null,
+  setSelectedCourse: (course) => {
     set(() => ({
-      selectedStudent: student,
+      selectedCourse: course,
     }));
   },
-  getStudents: async () => {
+  getCourses: async () => {
     set(() => ({
       loading: true,
     }));
     try {
-      const response = await getStudents();
+      const response = await getCourses();
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
           loading: false,
-          studentData: data,
-          filteredStudentData: data,
+          courseData: data,
+          filteredCourseData: data,
           statusMessage: "",
         }));
       } else {
@@ -40,10 +40,10 @@ const useStudentStore = create((set, get) => ({
       setError(set, error);
     }
   },
-  addStudent: async (formData) => {
+  addCourse: async (formData) => {
     setInitial(set);
     try {
-      const response = await addStudent(formData);
+      const response = await addCourse(formData);
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
@@ -51,7 +51,7 @@ const useStudentStore = create((set, get) => ({
           loading: false,
           statusMessage: data,
         }));
-        await get().getStudents();
+        await get().getCourses();
       } else {
         setError(set, error);
       }
@@ -59,10 +59,11 @@ const useStudentStore = create((set, get) => ({
       setError(set, error);
     }
   },
-  updateStudent: async (formData) => {
+  updateCourse: async (formData) => {
     setInitial(set);
     try {
-      const response = await updateStudent(formData);
+      const response = await updateCourse(formData);
+
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
@@ -70,7 +71,7 @@ const useStudentStore = create((set, get) => ({
           loading: false,
           statusMessage: data,
         }));
-        await get().getStudents();
+        await get().getCourses();
       } else {
         setError(set, error);
       }
@@ -78,10 +79,10 @@ const useStudentStore = create((set, get) => ({
       setError(set, error);
     }
   },
-  removeStudent: async (id) => {
+  removeCourse: async (id) => {
     setInitial(set);
     try {
-      const response = await removeStudent(id);
+      const response = await removeCourse(id);
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
@@ -89,7 +90,7 @@ const useStudentStore = create((set, get) => ({
           loading: false,
           statusMessage: data,
         }));
-        await get().getStudents();
+        await get().getCourses();
       } else {
         setError(set, error);
       }
@@ -98,12 +99,12 @@ const useStudentStore = create((set, get) => ({
     }
   },
   filter: (searchTerm) => {
-    const filteredStudentData = get().studentData.filter(
-      (student) =>
-        student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.phoneNumber.includes(searchTerm.toLowerCase())
+    const filteredCourseData = get().courseData.filter(
+      (course) =>
+        course.course_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.course_code.includes(searchTerm)
     );
-    set({ filteredStudentData: filteredStudentData });
+    set({ filteredCourseData: filteredCourseData });
   },
 }));
 
@@ -119,4 +120,4 @@ function setError(set, error) {
   }));
 }
 
-export { useStudentStore };
+export { useCourseStore };

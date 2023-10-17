@@ -1,6 +1,6 @@
-import { addStudentSchema } from "../../../schemas/MasterSchema";
+import { addStudentSchema } from "../../../../schemas/MasterSchema";
 import { Form, Formik } from "formik";
-import CustomInput from "../../../components/CustomInput";
+import CustomInput from "../../../../components/CustomInput";
 
 export const AddStudentModal = ({ addStudent, loading ,addStudentModalRef}) => {
 
@@ -29,7 +29,7 @@ export const AddStudentModal = ({ addStudent, loading ,addStudentModalRef}) => {
               birthDay: new Date().toISOString().split("T")[0],
             }}
             validationSchema={addStudentSchema}
-            onSubmit={async (values) => {
+            onSubmit={async (values,{ resetForm }) => {
               const formData = new FormData();
               formData.append("name", values.name);
               formData.append("phone", values.phone);
@@ -38,6 +38,7 @@ export const AddStudentModal = ({ addStudent, loading ,addStudentModalRef}) => {
               formData.append("email", values.email);
               formData.append("birthDay", values.birthDay);
               addStudent(formData);
+              resetForm();
               closeAddModal();
             }}
           >

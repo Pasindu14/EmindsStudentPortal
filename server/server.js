@@ -4,6 +4,10 @@ const cors = require("cors");
 const db = require("./config/db");
 const ApiResponse = require("./models/api_response");
 
+const studentController = require("./controllers/studentController");
+const courseController = require("./controllers/courseController");
+const batchController = require("./controllers/batchController");
+
 const app = express();
 const port = 5000;
 
@@ -47,94 +51,20 @@ app.post("/api/users/signIn", (req, res) => {
   });
 });
 
-app.get("/api/masters/getStudents", (req, res) => {
-  const sql = "SELECT * FROM students";
-  db.query(sql, (err, results) => {
-    if (err) {
-      const apiResponse = ApiResponse.failure(err);
-      return res.json(apiResponse);
-    }
+app.get("/api/masters/getStudents", studentController.getStudents);
+app.post("/api/masters/addStudent", studentController.addStudent);
+app.put("/api/masters/updateStudent", studentController.updateStudent);
+app.delete("/api/masters/removeStudent", studentController.removeStudent);
 
-    if (results.length === 0) {
-      const apiResponse = ApiResponse.failure(
-        "No records found in the table. Please add some data first."
-      );
+app.get("/api/courses/getCourses", courseController.getCourses);
+app.post("/api/courses/addCourse", courseController.addCourse);
+app.put("/api/courses/updateCourse", courseController.updateCourse);
+app.delete("/api/courses/removeCourse", courseController.removeCourse);
 
-      return res.json(apiResponse);
-    }
-
-    const apiResponse = ApiResponse.success(results);
-    res.json(apiResponse);
-  });
-});
-
-app.post("/api/masters/addStudent", (req, res) => {
-  const { name, phone, address, nic, email, birthDay } = req.body;
-
-  // Validate the incoming data before running the SQL query
-  // ...
-
-  // Check if phoneNumber already exists
-  const checkSql = "SELECT * FROM students WHERE phoneNumber = ?";
-
-  db.query(checkSql, [phone], (err, results) => {
-    if (err) {
-      const apiResponse = ApiResponse.failure(err);
-      return res.json(apiResponse);
-    }
-
-    // If phoneNumber already exists, return an error response
-    if (results.length > 0) {
-      const apiResponse = ApiResponse.failure("Phone number already exists.");
-      return res.json(apiResponse);
-    }
-
-    // If phoneNumber doesn't exist, proceed to insert
-    const insertSql =
-      "INSERT INTO students (name, phoneNumber, address, nic, email, birthDay) VALUES (?, ?, ?, ?, ?, ?)";
-
-    db.query(
-      insertSql,
-      [name, phone, address, nic, email, birthDay],
-      (err, results) => {
-        if (err) {
-          const apiResponse = ApiResponse.failure(err);
-          return res.json(apiResponse);
-        }
-        const apiResponse = ApiResponse.success(
-          "New student record has been successfully added."
-        );
-        res.json(apiResponse);
-      }
-    );
-  });
-});
-
-app.put("/api/masters/updateStudent", (req, res) => {
-  const { name, phone, address, nic, email, birthDay, auto_id } = req.body;
-
-  const updateSql = `
-    UPDATE students
-    SET name = ?, phoneNumber = ?, address = ?, nic = ?, email = ?, birthDay = ?
-    WHERE auto_id = ?;
-  `;
-
-  db.query(
-    updateSql,
-    [name, phone, address, nic, email, birthDay, auto_id],
-    (err, results) => {
-      if (err) {
-        const apiResponse = ApiResponse.failure(err);
-        return res.json(apiResponse);
-      }
-
-      const apiResponse = ApiResponse.success(
-        "Student record has been successfully updated."
-      );
-      res.json(apiResponse);
-    }
-  );
-});
+app.get("/api/batches/getBatches", batchController.getBatches);
+app.post("/api/batches/addBatch", batchController.addBatch);
+app.put("/api/batches/updateBatch", batchController.updateBatch);
+app.delete("/api/batches/removeBatch", batchController.removeBatch);
 
 // Start the Express server
 app.listen(port, () => {

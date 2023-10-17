@@ -38,3 +38,130 @@ export const updateStudent = async (formData) => {
     return error;
   }
 };
+
+export const removeStudent = async (id) => {
+  try {
+    const response = await API.delete("/api/masters/removeStudent", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCourses = async () => {
+  try {
+    const response = await API.get("api/courses/getCourses", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new course
+export const addCourse = async (formData) => {
+  try {
+    const response = await API.post("api/courses/addCourse", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing course
+export const updateCourse = async (formData) => {
+  try {
+    const response = await API.put("api/courses/updateCourse", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove a course
+export const removeCourse = async (id) => {
+  try {
+    const response = await API.delete("api/courses/removeCourse", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Get all batches
+export const getBatches = async () => {
+  try {
+    const response = await API.get("api/batches/getBatches", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new batch
+export const addBatch = async (formData) => {
+  try {
+    const response = await API.post("api/batches/addBatch", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing batch
+export const updateBatch = async (formData) => {
+  try {
+    const response = await API.put("api/batches/updateBatch", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove a batch
+export const removeBatch = async (id) => {
+  try {
+    const response = await API.delete("api/batches/removeBatch", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

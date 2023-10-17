@@ -1,15 +1,12 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useStudentStore } from "../../zustand/stores/masterZustand";
+import { useStudentStore } from "../../../zustand/stores/masterZustand";
 import DataTable from "react-data-table-component";
-import { reactTableStyles } from "../../core/constants/styles";
-import CustomInput from "../../components/CustomInput";
-import { addStudentSchema } from "../../schemas/MasterSchema";
-import { Form, Formik } from "formik";
-import { errorToast } from "../../components/Toast";
-import { useHandleErrors } from "../../hooks/useHandleErrors";
-
+import { reactTableStyles } from "../../../core/constants/styles";
+import { confirmToast } from "../../../components/Toast";
+import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { AddStudentModal } from "./components/AddStudentModel";
 import { UpdateStudentModel } from "./components/UpdateStudentModel";
+import { SearchField } from "./components/Search";
 
 export function Students() {
   const addStudentModalRef = useRef(null);
@@ -34,6 +31,7 @@ export function Students() {
     filteredStudentData,
     setSelectedStudent,
     selectedStudent,
+    removeStudent,
   } = useStudentStore();
 
   useHandleErrors(hasErrors, statusMessage);
@@ -55,7 +53,7 @@ export function Students() {
   };
 
   const handleRemoveButtonClick = (row) => {
-    setSelectedStudent(row);
+    confirmToast(() => removeStudent(row.auto_id));
   };
 
   const studentColumns = [
@@ -131,14 +129,7 @@ export function Students() {
           updateStudentModalRef={updateStudentModalRef}
         />
 
-        <div className="flex justify-end mb-4">
-          <input
-            type="search"
-            placeholder="Search"
-            className="input input-bordered w-full input-primary max-w-xs rounded-none h-10"
-            onChange={handleFilter}
-          />
-        </div>
+        <SearchField handleFilter={handleFilter} />
 
         <div className="table-border">
           <DataTable
