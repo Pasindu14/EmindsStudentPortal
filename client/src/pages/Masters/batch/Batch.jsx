@@ -7,6 +7,7 @@ import { useHandleErrors } from "../../../hooks/useHandleErrors"; // Update acco
 import { AddBatchModal } from "./components/AddBatchModel";
 import { UpdateBatchModel } from "./components/UpdateBatchModel";
 import { SearchField } from "./components/Search"; // Update accordingly
+import Card from "../../../components/Card";
 
 export function Batches() {
   const addBatchModalRef = useRef(null);
@@ -114,39 +115,41 @@ export function Batches() {
 
   return (
     <>
-      <div className="font-inter">
-        <button
-          className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
-          type="submit"
-          onClick={() => showAddModal()}
-        >
-          Add new batch
-        </button>
+      <Card title="MANAGE BATCHES">
+        <div className="font-inter">
+          <button
+            className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
+            type="submit"
+            onClick={() => showAddModal()}
+          >
+            Add new batch
+          </button>
 
-        <AddBatchModal
-          addBatch={addBatch}
-          loading={loading}
-          addBatchModalRef={addBatchModalRef}
-        />
-        <UpdateBatchModel
-          updateBatch={updateBatch}
-          loading={loading}
-          selectedBatch={selectedBatch}
-          updateBatchModalRef={updateBatchModalRef}
-        />
-
-        <SearchField handleFilter={handleFilter} />
-
-        <div className="table-border">
-          <DataTable
-            columns={batchColumns}
-            data={filteredBatchData}
-            progressPending={loading}
-            pagination
-            customStyles={reactTableStyles}
+          <AddBatchModal
+            addBatch={addBatch}
+            loading={loading}
+            addBatchModalRef={addBatchModalRef}
           />
+          <UpdateBatchModel
+            updateBatch={updateBatch}
+            loading={loading}
+            selectedBatch={selectedBatch}
+            updateBatchModalRef={updateBatchModalRef}
+          />
+
+          <SearchField handleFilter={handleFilter} />
+
+          <div className="table-border">
+            <DataTable
+              columns={batchColumns}
+              data={filteredBatchData}
+              progressPending={loading}
+              pagination
+              customStyles={reactTableStyles}
+            />
+          </div>
         </div>
-      </div>
+      </Card>
     </>
   );
 }

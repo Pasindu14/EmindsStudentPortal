@@ -165,3 +165,60 @@ export const removeBatch = async (id) => {
     return error;
   }
 };
+
+// Get all exams
+export const getExams = async () => {
+  try {
+    const response = await API.get("api/exams/getExams", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new exam
+export const addExam = async (formData) => {
+  try {
+    const response = await API.post("api/exams/addExam", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing exam
+export const updateExam = async (formData) => {
+  try {
+    const response = await API.put("api/exams/updateExam", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove an exam
+export const removeExam = async (id) => {
+  try {
+    const response = await API.delete("api/exams/removeExam", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

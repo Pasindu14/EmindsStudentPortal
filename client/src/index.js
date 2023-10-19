@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import { Batches } from "./pages/Masters/batch/Batch";
+import { Students } from "./pages/Masters/students/Students";
+import { Courses } from "./pages/Masters/courses/Courses";
+import { Exams } from "./pages/Masters/exams/Exams";
 import reportWebVitals from "./reportWebVitals";
-import Login from "./pages/Login/Login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import AppContainer from "./AppContainer";
@@ -12,6 +14,24 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AppContainer />,
+    children: [
+      {
+        path: "batches",
+        element: <Batches />,
+      },
+      {
+        path: "students",
+        element: <Students />,
+      },
+      {
+        path: "courses",
+        element: <Courses />,
+      },
+      {
+        path: "exams",
+        element: <Exams />,
+      },
+    ],
   },
 ]);
 

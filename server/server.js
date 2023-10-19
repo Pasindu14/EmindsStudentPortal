@@ -7,6 +7,7 @@ const ApiResponse = require("./models/api_response");
 const studentController = require("./controllers/studentController");
 const courseController = require("./controllers/courseController");
 const batchController = require("./controllers/batchController");
+const examController = require("./controllers/examController");
 
 const app = express();
 const port = 5000;
@@ -65,6 +66,11 @@ app.get("/api/batches/getBatches", batchController.getBatches);
 app.post("/api/batches/addBatch", batchController.addBatch);
 app.put("/api/batches/updateBatch", batchController.updateBatch);
 app.delete("/api/batches/removeBatch", batchController.removeBatch);
+
+app.get("/api/exams/getExams", examController.getExams);
+app.post("/api/exams/addExam", examController.addExam);
+app.put("/api/exams/updateExam", examController.updateExam);
+app.delete("/api/exams/removeExam", examController.removeExam);
 
 // Start the Express server
 app.listen(port, () => {

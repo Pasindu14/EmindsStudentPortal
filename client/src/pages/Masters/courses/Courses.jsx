@@ -6,6 +6,7 @@ import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { AddCourseModal } from "./components/AddCourseModel"; // Change to AddCourseModal
 import { UpdateCourseModel } from "./components/UpdateCourseModel"; // Change to UpdateCourseModel
 import { SearchField } from "./components/Search";
+import Card from "../../../components/Card";
 
 export function Courses() {
   const addCourseModalRef = useRef(null); // Change to addCourseModalRef
@@ -78,39 +79,41 @@ export function Courses() {
 
   return (
     <>
-      <div className="font-inter">
-        <button
-          className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
-          type="submit"
-          onClick={() => showAddModal()}
-        >
-          Add new course
-        </button>
+      <Card title="MANAGE STUDENTS">
+        <div className="font-inter">
+          <button
+            className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
+            type="submit"
+            onClick={() => showAddModal()}
+          >
+            Add new course
+          </button>
 
-        <AddCourseModal // Change to AddCourseModal
-          addCourse={addCourse} // Change to addCourse
-          loading={loading}
-          addCourseModalRef={addCourseModalRef} // Change to addCourseModalRef
-        />
-        <UpdateCourseModel // Change to UpdateCourseModel
-          updateCourse={updateCourse} // Change to updateCourse
-          loading={loading}
-          selectedCourse={selectedCourse} // Change to selectedCourse
-          updateCourseModalRef={updateCourseModalRef} // Change to updateCourseModalRef
-        />
-
-        <SearchField handleFilter={handleFilter} />
-
-        <div className="table-border">
-          <DataTable
-            columns={courseColumns} // Change to courseColumns
-            data={filteredCourseData} // Change to filteredCourseData
-            progressPending={loading}
-            pagination
-            customStyles={reactTableStyles}
+          <AddCourseModal // Change to AddCourseModal
+            addCourse={addCourse} // Change to addCourse
+            loading={loading}
+            addCourseModalRef={addCourseModalRef} // Change to addCourseModalRef
           />
+          <UpdateCourseModel // Change to UpdateCourseModel
+            updateCourse={updateCourse} // Change to updateCourse
+            loading={loading}
+            selectedCourse={selectedCourse} // Change to selectedCourse
+            updateCourseModalRef={updateCourseModalRef} // Change to updateCourseModalRef
+          />
+
+          <SearchField handleFilter={handleFilter} />
+
+          <div className="table-border">
+            <DataTable
+              columns={courseColumns} // Change to courseColumns
+              data={filteredCourseData} // Change to filteredCourseData
+              progressPending={loading}
+              pagination
+              customStyles={reactTableStyles}
+            />
+          </div>
         </div>
-      </div>
+      </Card>
     </>
   );
 }

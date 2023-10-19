@@ -7,6 +7,7 @@ import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { AddStudentModal } from "./components/AddStudentModel";
 import { UpdateStudentModel } from "./components/UpdateStudentModel";
 import { SearchField } from "./components/Search";
+import Card from "../../../components/Card";
 
 export function Students() {
   const addStudentModalRef = useRef(null);
@@ -108,39 +109,41 @@ export function Students() {
 
   return (
     <>
-      <div className="font-inter">
-        <button
-          className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
-          type="submit"
-          onClick={() => showAddModal()}
-        >
-          Add new student
-        </button>
+      <Card title="MANAGE STUDENTS">
+        <div className="font-inter">
+          <button
+            className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
+            type="submit"
+            onClick={() => showAddModal()}
+          >
+            Add new student
+          </button>
 
-        <AddStudentModal
-          addStudent={addStudent}
-          loading={loading}
-          addStudentModalRef={addStudentModalRef}
-        />
-        <UpdateStudentModel
-          updateStudent={updateStudent}
-          loading={loading}
-          selectedStudent={selectedStudent}
-          updateStudentModalRef={updateStudentModalRef}
-        />
-
-        <SearchField handleFilter={handleFilter} />
-
-        <div className="table-border">
-          <DataTable
-            columns={studentColumns}
-            data={filteredStudentData}
-            progressPending={loading}
-            pagination
-            customStyles={reactTableStyles}
+          <AddStudentModal
+            addStudent={addStudent}
+            loading={loading}
+            addStudentModalRef={addStudentModalRef}
           />
+          <UpdateStudentModel
+            updateStudent={updateStudent}
+            loading={loading}
+            selectedStudent={selectedStudent}
+            updateStudentModalRef={updateStudentModalRef}
+          />
+
+          <SearchField handleFilter={handleFilter} />
+
+          <div className="table-border">
+            <DataTable
+              columns={studentColumns}
+              data={filteredStudentData}
+              progressPending={loading}
+              pagination
+              customStyles={reactTableStyles}
+            />
+          </div>
         </div>
-      </div>
+      </Card>
     </>
   );
 }
