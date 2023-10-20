@@ -7,7 +7,7 @@ import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { AddExamModel } from "./components/AddExamModel";
 import { UpdateExamModel } from "./components/UpdateExamModel";
 import { SearchField } from "./components/Search";
-import { CourseSelect } from "./components/CourseSelect";
+
 import Card from "../../../components/Card";
 import { ThreeCircles } from "react-loader-spinner";
 import AnimatedComponent from "../../../components/AnimatedComponent";
@@ -37,8 +37,8 @@ export function Exams() {
     selectedExam,
     removeExam,
     loadCourseAndBatchData,
-    batchData,
-    coursedata,
+    setSelectedCourseCode,
+    setSelectedBatchCode,
   } = useExamStore(); // Adjusted store hook
 
   useHandleErrors(hasErrors, statusMessage);
@@ -56,22 +56,10 @@ export function Exams() {
   }, [getExams, loadCourseAndBatchData]);
 
   const handleUpdateButtonClick = (row) => {
-    console.log(row);
     showUpdateModal();
     setSelectedExam(row);
   };
 
-  const courseSelect = () => {
-    return (
-      <select className="select select-bordered w-full max-w-xs">
-        <option disabled selected>
-          Who shot first?
-        </option>
-        <option>Han Solo</option>
-        <option>Greedo</option>
-      </select>
-    );
-  };
   const handleRemoveButtonClick = (row) => {
     confirmToast(() => removeExam(row.exam_auto_id)); // Adjusted to exam_auto_id
   };
@@ -140,7 +128,10 @@ export function Exams() {
               <AddExamModel
                 addExam={addExam} // Adjusted prop names and values
                 loading={loading}
-                addExamModalRef={addExamModalRef} // Adjusted ref name
+                addExamModalRef={addExamModalRef}
+                setSelectedCourseCode={setSelectedCourseCode}
+                setSelectedBatchCode={setSelectedBatchCode}
+                // Adjusted ref name
               />
               <UpdateExamModel
                 updateExam={updateExam} // Adjusted prop names and values
@@ -148,7 +139,7 @@ export function Exams() {
                 selectedExam={selectedExam} // Adjusted prop name
                 updateExamModalRef={updateExamModalRef} // Adjusted ref name
               />
-              <CourseSelect />
+
               <SearchField handleFilter={handleFilter} />
               <div className="table-border">
                 <DataTable

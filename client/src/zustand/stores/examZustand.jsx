@@ -25,14 +25,13 @@ const useExamStore = create((set, get) => ({
         getCourses(),
         getBatches(),
       ]);
-      console.log(courseResponse.data);
       if (
         courseResponse.data.status === "success" &&
         batchResponse.data.status === "success"
       ) {
         set(() => ({
-          courseData: courseResponse.data,
-          batchData: batchResponse.data,
+          courseData: courseResponse.data.data,
+          batchData: batchResponse.data.data,
         }));
       } else {
         setError(set, courseResponse.data.error || batchResponse.data.error);
@@ -43,6 +42,7 @@ const useExamStore = create((set, get) => ({
   },
 
   setSelectedCourseCode: (courseCode) => {
+    console.log("courseCode", courseCode);
     set(() => ({
       selectedCourseCode: courseCode,
     }));

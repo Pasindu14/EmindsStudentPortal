@@ -1,14 +1,21 @@
 import { addStudentSchema } from "../../../../schemas/MasterSchema";
 import { Form, Formik } from "formik";
 import CustomInput from "../../../../components/CustomInput";
-
-export const AddExamModel = ({ addStudent, loading, addExamModalRef }) => {
+import { CourseSelect } from "./CourseSelect";
+import { BatchSelect } from "./BatchSelect";
+export const AddExamModel = ({
+  addStudent,
+  loading,
+  addExamModalRef,
+  setSelectedCourseCode,
+  setSelectedBatchCode,
+}) => {
   const closeAddModal = () => {
     addExamModalRef.current.close();
   };
 
   return (
-    <dialog id="add_student_modal" className="modal" ref={addExamModalRef}>
+    <dialog id="add_exam_modal" className="modal" ref={addExamModalRef}>
       <div className="modal-box  rounded-none">
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}
@@ -16,7 +23,7 @@ export const AddExamModel = ({ addStudent, loading, addExamModalRef }) => {
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-lg">ADD NEW STUDENT</h3>
+        <h3 className="font-bold text-lg">ADD NEW EXAM</h3>
         <div className="max-w-lg">
           <Formik
             initialValues={{
@@ -43,6 +50,9 @@ export const AddExamModel = ({ addStudent, loading, addExamModalRef }) => {
           >
             {() => (
               <Form>
+                <CourseSelect setSelectedCourseCode={setSelectedCourseCode} />
+
+                <BatchSelect setSelectedBatchCode={setSelectedBatchCode} />
                 <CustomInput label="Name" name="name" type="text" />
                 <CustomInput label="Phone" name="phone" type="text" />
                 <CustomInput label="Address" name="address" type="text" />
