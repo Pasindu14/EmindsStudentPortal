@@ -17,8 +17,6 @@ const useExamStore = create((set, get) => ({
   hasErrors: false,
   statusMessage: "",
   selectedExam: null,
-  selectedCourseCode: null,
-  selectedBatchCode: null,
   loadCourseAndBatchData: async () => {
     try {
       const [courseResponse, batchResponse] = await Promise.all([
@@ -40,20 +38,6 @@ const useExamStore = create((set, get) => ({
       setError(set, error);
     }
   },
-
-  setSelectedCourseCode: (courseCode) => {
-    console.log("courseCode", courseCode);
-    set(() => ({
-      selectedCourseCode: courseCode,
-    }));
-  },
-
-  setSelectedBatchCode: (batchCode) => {
-    set(() => ({
-      selectedBatchCode: batchCode,
-    }));
-  },
-
   setSelectedExam: (exam) => {
     set(() => ({
       selectedExam: exam,

@@ -222,3 +222,117 @@ export const removeExam = async (id) => {
     return error;
   }
 };
+
+// Get all jobs
+export const getJobs = async () => {
+  try {
+    const response = await API.get("api/jobs/getJobs", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new job
+export const addJob = async (formData) => {
+  try {
+    const response = await API.post("api/jobs/addJob", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing job
+export const updateJob = async (formData) => {
+  try {
+    const response = await API.put("api/jobs/updateJob", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove a job
+export const removeJob = async (id) => {
+  try {
+    const response = await API.delete("api/jobs/removeJob", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Get all questions
+export const getQuestions = async () => {
+  try {
+    const response = await API.get("api/questions/getQuestions", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new question
+export const addQuestion = async (formData) => {
+  try {
+    const response = await API.post("api/questions/addQuestion", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing question
+export const updateQuestion = async (formData) => {
+  try {
+    const response = await API.put("api/questions/updateQuestion", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove a question
+export const removeQuestion = async (id) => {
+  try {
+    const response = await API.delete("api/questions/removeQuestion", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

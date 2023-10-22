@@ -8,6 +8,8 @@ const studentController = require("./controllers/studentController");
 const courseController = require("./controllers/courseController");
 const batchController = require("./controllers/batchController");
 const examController = require("./controllers/examController");
+const jobController = require("./controllers/jobController");
+const questionController = require("./controllers/questionController");
 
 const app = express();
 const port = 5000;
@@ -71,6 +73,16 @@ app.get("/api/exams/getExams", examController.getExams);
 app.post("/api/exams/addExam", examController.addExam);
 app.put("/api/exams/updateExam", examController.updateExam);
 app.delete("/api/exams/removeExam", examController.removeExam);
+
+app.get("/api/jobs/getJobs", jobController.getJobs);
+app.post("/api/jobs/addJob", jobController.addJob);
+app.put("/api/jobs/updateJob", jobController.updateJob);
+app.delete("/api/jobs/removeJob", jobController.removeJob);
+
+app.get("/api/questions/getQuestions", questionController.getQuestions);
+app.post("/api/questions/addQuestion", questionController.addQuestion);
+app.put("/api/questions/updateQuestion", questionController.updateQuestion);
+app.delete("/api/questions/removeQuestion", questionController.removeQuestion);
 
 // Start the Express server
 app.listen(port, () => {

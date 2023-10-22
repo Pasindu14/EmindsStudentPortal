@@ -60,10 +60,6 @@ export function Exams() {
     setSelectedExam(row);
   };
 
-  const handleRemoveButtonClick = (row) => {
-    confirmToast(() => removeExam(row.exam_auto_id)); // Adjusted to exam_auto_id
-  };
-
   const examColumns = [
     // Adjusted columns to reflect exam data
     {
@@ -84,16 +80,10 @@ export function Exams() {
         return (
           <div>
             <button
-              className="btn btn-success btn-sm rounded-none text-white font-inter"
+              className="btn btn-primary btn-sm rounded-none text-white font-inter"
               onClick={() => handleUpdateButtonClick(row)}
             >
               Update
-            </button>
-            <button
-              className="btn btn-error btn-sm rounded-none text-white font-inter"
-              onClick={() => handleRemoveButtonClick(row)}
-            >
-              Remove
             </button>
           </div>
         );

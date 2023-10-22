@@ -58,7 +58,6 @@ exports.updateExam = (req, res) => {
     SET batch_code = ?, course_code = ?, exam_code = ?
     WHERE exam_auto_id = ?;
   `;
-
   db.query(
     updateSql,
     [batch_code, course_code, exam_code, exam_auto_id],

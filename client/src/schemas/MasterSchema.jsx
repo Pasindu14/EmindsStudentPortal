@@ -39,3 +39,15 @@ export const batchSchema = yup.object().shape({
     .positive("Must be a positive number")
     .required("Price is required"),
 });
+
+export const examSchema = yup.object().shape({
+  exam_code: yup.string().required("Exam code is required"),
+  course: yup.string().required("Course is required"),
+  batch: yup.string().required("Batch is required"),
+});
+
+export const jobSchema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+  expire_date: yup.date().required("Expire date is required"),
+  link: yup.string().required("Link is required"),
+});

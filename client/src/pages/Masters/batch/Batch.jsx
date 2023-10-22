@@ -96,7 +96,7 @@ export function Batches() {
         return (
           <div>
             <button
-              className="btn btn-success btn-sm rounded-none text-white font-inter"
+              className="btn btn-primary btn-sm rounded-none text-white font-inter"
               onClick={() => handleAddButtonClick(row)}
             >
               Update
