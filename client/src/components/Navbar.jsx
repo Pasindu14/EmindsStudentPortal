@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [isMastersListVisible, setMastersListVisible] = useState(false);
+
+  const toggleMastersList = () => {
+    setMastersListVisible((prev) => !prev);
+  };
+
   return (
     <div>
       <nav className="bg-gray-white shadow-lg">
@@ -17,24 +24,73 @@ function Navbar() {
                   alt="Workflow"
                 />
               </div>
-              <div className="hidden md:block">
+              <div className="hidden md:block z-10">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <Link
-                    to={`students`}
-                    className="hover:bg-[#570DF8] hover:text-white text-black px-3 py-2  text-lg font-bold font-inter"
-                  >
-                    MASTERS
-                  </Link>
+                  <div className="relative group">
+                    <button
+                      onClick={toggleMastersList}
+                      className="hover:bg-[#570DF8] hover:text-white text-black px-3 py-2 text-lg font-bold font-inter"
+                    >
+                      MASTERS
+                    </button>
+                    {isMastersListVisible && (
+                      <div className="absolute left-0 mt-2 bg-white border border-gray-300 p-2 rounded shadow-lg">
+                        <Link
+                          to={`students`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white w-56"
+                        >
+                          Students
+                        </Link>
+                        <Link
+                          to={`batches`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
+                        >
+                          Batches
+                        </Link>
+                        <Link
+                          to={`courses`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
+                        >
+                          Courses
+                        </Link>
+                        <Link
+                          to={`exams`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
+                        >
+                          Exams
+                        </Link>
+                        <Link
+                          to={`questions`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
+                        >
+                          Questions
+                        </Link>
+                        <Link
+                          to={`jobs`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
+                        >
+                          Jobs
+                        </Link>
+                        {/* Add more master items as needed */}
+                      </div>
+                    )}
+                  </div>
 
                   <Link
                     to={`batches`}
-                    className="hover:bg-[#570DF8] hover:text-white text-black px-3 py-2  text-lg font-bold font-inter"
+                    className="hover:bg-[#570DF8] hover:text-white text-black px-3 py-2 text-lg font-bold font-inter"
                   >
                     MAPPING
                   </Link>
                   <Link
                     to={`students`}
-                    className="hover:bg-[#570DF8] hover:text-white text-black px-3 py-2  text-lg font-bold font-inter"
+                    className="hover:bg-[#570DF8] hover:text-white text-black px-3 py-2 text-lg font-bold font-inter"
                   >
                     APPROVAL
                   </Link>

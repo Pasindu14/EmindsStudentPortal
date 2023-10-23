@@ -7,6 +7,7 @@ import { Courses } from "./pages/Masters/courses/Courses";
 import { Exams } from "./pages/Masters/exams/Exams";
 import { Jobs } from "./pages/Masters/jobs/Jobs";
 import { Questions } from "./pages/Masters/questions/Questions";
+import { FileUpload } from "./pages/Masters/events/Events";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "questions",
         element: <Questions />,
+      },
+      {
+        path: "fileUpload",
+        element: <FileUpload />,
       },
     ],
   },

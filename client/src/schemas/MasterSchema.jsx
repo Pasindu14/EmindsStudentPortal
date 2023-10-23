@@ -51,3 +51,20 @@ export const jobSchema = yup.object().shape({
   expire_date: yup.date().required("Expire date is required"),
   link: yup.string().required("Link is required"),
 });
+
+export const questionSchema = yup.object().shape({
+  question: yup.string().required("Question is required"),
+  answer_01: yup.string().required("Answer 1 is required"),
+  answer_02: yup.string().required("Answer 2 is required"),
+  answer_03: yup.string().required("Answer 3 is required"),
+  answer_04: yup.string().required("Answer 4 is required"),
+  correct_answer: yup
+    .number()
+    .integer()
+    .min(1)
+    .max(4)
+    .required("Correct Answer is required"),
+  course: yup.string().required("Course is required"),
+  batch: yup.string().required("Batch is required"),
+  exam: yup.string().required("Exam is required"),
+});

@@ -1,10 +1,10 @@
 import React from "react";
-import { useExamStore } from "../../../../zustand/stores/examZustand";
+import { useQuestionStore } from "../../../../zustand/stores/questionZustand";
 import { useField } from "formik";
 
 export const CourseSelect = ({ ...props }) => {
   const [field, meta] = useField(props);
-  const { courseData } = useExamStore();
+  const { courseData } = useQuestionStore();
 
   return (
     <div className="form-control">

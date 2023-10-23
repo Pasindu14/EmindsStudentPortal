@@ -66,7 +66,9 @@ export function Jobs() {
     },
     {
       name: "Link",
-      cell: (row) => row.link.substring(1, 35), // Adjusted to title
+      cell: (row) => row.link, // Adjusted to title
+      minWidth: "50rem",
+      grow: 1,
     },
     {
       name: "Status",

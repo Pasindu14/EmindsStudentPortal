@@ -60,7 +60,6 @@ const useQuestionStore = create((set, get) => ({
     try {
       const response = await getQuestions();
       const { status, data, error } = response.data;
-      console.log("response.data", response.data);
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -137,8 +136,8 @@ const useQuestionStore = create((set, get) => ({
     const filteredQuestionData = get().questionData.filter(
       (question) =>
         question.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        question.course_code.toString().includes(searchTerm) ||
-        question.batch_code.toString().includes(searchTerm)
+        question.course_name.toString().includes(searchTerm) ||
+        question.batch_name.toString().includes(searchTerm)
     );
     set({ filteredQuestionData: filteredQuestionData });
   },

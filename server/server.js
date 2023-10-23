@@ -1,6 +1,31 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const { type } = req.body;
+    if (type == "event") {
+      cb(null, "./uploads/events");
+    } else {
+      cb(null, "./uploads");
+    }
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname +
+        "-" +
+        Date.now() +
+        "." +
+        file.originalname.split(".").pop()
+    );
+  },
+});
+
+const upload = multer({ storage: storage });
+
 const db = require("./config/db");
 const ApiResponse = require("./models/api_response");
 
@@ -10,6 +35,7 @@ const batchController = require("./controllers/batchController");
 const examController = require("./controllers/examController");
 const jobController = require("./controllers/jobController");
 const questionController = require("./controllers/questionController");
+const commonController = require("./controllers/commonController");
 
 const app = express();
 const port = 5000;
@@ -83,6 +109,8 @@ app.get("/api/questions/getQuestions", questionController.getQuestions);
 app.post("/api/questions/addQuestion", questionController.addQuestion);
 app.put("/api/questions/updateQuestion", questionController.updateQuestion);
 app.delete("/api/questions/removeQuestion", questionController.removeQuestion);
+
+app.post("/api/uploadImages", commonController.uploadImage);
 
 // Start the Express server
 app.listen(port, () => {

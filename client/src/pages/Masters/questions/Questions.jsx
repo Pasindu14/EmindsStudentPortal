@@ -10,6 +10,8 @@ import { SearchField } from "./components/Search";
 import Card from "../../../components/Card";
 import { ThreeCircles } from "react-loader-spinner";
 import AnimatedComponent from "../../../components/AnimatedComponent";
+import { AddQuestionModel } from "./components/AddQuestionModel";
+import { UpdateQuestionModel } from "./components/UpdateQuestionModel";
 
 export function Questions() {
   const addQuestionModalRef = useRef(null);
@@ -57,22 +59,26 @@ export function Questions() {
     setSelectedQuestion(row);
   };
 
+  const handleRemoveButtonClick = (row) => {
+    confirmToast(() => removeQuestion(row.exam_auto_id));
+  };
+
   const questionColumns = [
     {
-      name: "Course Code",
-      cell: (row) => row.course_code,
+      name: "Course",
+      cell: (row) => row.course_name,
       minWidth: "10rem",
       grow: 1,
     },
     {
-      name: "Batch Code",
-      cell: (row) => row.batch_no,
+      name: "Batch",
+      cell: (row) => row.batch_name,
       minWidth: "10rem",
       grow: 1,
     },
     {
-      name: "Exam Code",
-      cell: (row) => row.exam_code,
+      name: "Exam",
+      cell: (row) => row.exam_name,
       minWidth: "10rem",
       grow: 1,
     },
@@ -122,8 +128,16 @@ export function Questions() {
           >
             Update
           </button>
+          <button
+            className="btn btn-error btn-sm rounded-none text-white font-inter"
+            onClick={() => handleRemoveButtonClick(row)}
+          >
+            Remove
+          </button>
         </div>
       ),
+      minWidth: "15rem",
+      grow: 1,
     },
   ];
 
@@ -150,8 +164,7 @@ export function Questions() {
               >
                 Add new question
               </button>
-
-              {/*               <AddQuestionModel
+              <AddQuestionModel
                 addQuestion={addQuestion} // Adjusted prop names and values
                 loading={loading}
                 addQuestionModalRef={addQuestionModalRef}
@@ -162,8 +175,7 @@ export function Questions() {
                 loading={loading}
                 selectedQuestion={selectedQuestion} // Adjusted prop name
                 updateQuestionModalRef={updateQuestionModalRef} // Adjusted ref name
-              /> */}
-
+              />
               <SearchField handleFilter={handleFilter} />
               <div className="table-border">
                 <DataTable

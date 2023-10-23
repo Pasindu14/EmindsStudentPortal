@@ -1,10 +1,10 @@
 import React from "react";
-import { useExamStore } from "../../../../zustand/stores/examZustand";
+import { useQuestionStore } from "../../../../zustand/stores/questionZustand";
 import { useField } from "formik";
 
 export const BatchSelect = ({ ...props }) => {
   const [field, meta] = useField(props);
-  const { batchData } = useExamStore();
+  const { batchData } = useQuestionStore();
 
   return (
     <div className="form-control">

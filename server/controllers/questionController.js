@@ -7,9 +7,9 @@ exports.getQuestions = (req, res) => {
   const sql = `
     SELECT 
       questions.*, 
-      courses.course_code, 
-      batches.batch_no,
-      exams.exam_code
+      courses.course_code as course_name, 
+      batches.batch_name ,
+      exams.exam_code as exam_name
     FROM 
       questions
     INNER JOIN 
