@@ -36,6 +36,7 @@ const examController = require("./controllers/examController");
 const jobController = require("./controllers/jobController");
 const questionController = require("./controllers/questionController");
 const commonController = require("./controllers/commonController");
+const eventController = require("./controllers/eventController");
 
 const app = express();
 const port = 5000;
@@ -111,6 +112,11 @@ app.put("/api/questions/updateQuestion", questionController.updateQuestion);
 app.delete("/api/questions/removeQuestion", questionController.removeQuestion);
 
 app.post("/api/uploadImages", commonController.uploadImage);
+
+app.get("/api/events/getEvents", eventController.getEvents);
+app.post("/api/events/addEvent", eventController.addEvent);
+app.put("/api/events/updateEvent", eventController.updateEvent);
+app.delete("/api/events/removeEvent", eventController.removeEvent);
 
 // Start the Express server
 app.listen(port, () => {

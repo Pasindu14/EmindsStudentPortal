@@ -2,6 +2,7 @@
 
 const multer = require("multer");
 const ApiResponse = require("../models/api_response"); // Please adjust the path
+const { v4: uuidv4 } = require("uuid");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -13,14 +14,7 @@ const storage = multer.diskStorage({
     }
   },
   filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname +
-        "-" +
-        Date.now() +
-        "." +
-        file.originalname.split(".").pop()
-    );
+    cb(null, uuidv4() + "." + file.originalname.split(".").pop());
   },
 });
 
@@ -30,12 +24,12 @@ exports.uploadImage = (req, res) => {
   upload.single("myFile")(req, res, (err) => {
     if (err) {
       const apiResponse = ApiResponse.failure(err.message);
-      return res.json(apiResponse);
+      return apiResponse;
     }
 
     if (!req.file) {
       const apiResponse = ApiResponse.failure("No file uploaded");
-      return res.json(apiResponse);
+      return apiResponse;
     }
 
     const file = req.file; // The file information is stored in req.file
@@ -46,6 +40,6 @@ exports.uploadImage = (req, res) => {
       filename: file.filename,
       path: file.path,
     });
-    res.json(apiResponse);
+    return apiResponse;
   });
 };

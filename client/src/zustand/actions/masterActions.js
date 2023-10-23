@@ -336,3 +336,60 @@ export const removeQuestion = async (id) => {
     return error;
   }
 };
+
+// Get all events
+export const getEvents = async () => {
+  try {
+    const response = await API.get("api/events/getEvents", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new event
+export const addEvent = async (formData) => {
+  try {
+    const response = await API.post("api/events/addEvent", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing event
+export const updateEvent = async (formData) => {
+  try {
+    const response = await API.put("api/events/updateEvent", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove an event
+export const removeEvent = async (id) => {
+  try {
+    const response = await API.delete("api/events/removeEvent", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
