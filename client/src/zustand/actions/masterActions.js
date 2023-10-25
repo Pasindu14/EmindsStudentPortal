@@ -356,7 +356,7 @@ export const addEvent = async (formData) => {
   try {
     const response = await API.post("api/events/addEvent", formData, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     });
     return response;
@@ -370,7 +370,7 @@ export const updateEvent = async (formData) => {
   try {
     const response = await API.put("api/events/updateEvent", formData, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     });
     return response;

@@ -1,44 +1,50 @@
-import React, { useRef } from "react";
-import { eventSchema } from "../../../../schemas/MasterSchema"; // Update this import
-import { Form, Formik, useFormikContext } from "formik";
+import { eventSchemaUpdate } from "../../../../schemas/MasterSchema";
+import { Form, Formik } from "formik";
 import CustomInput from "../../../../components/CustomInput";
 import CustomFileInput from "../../../../components/CustomFileInput";
 import CustomCheckbox from "../../../../components/CustomCheckbox";
 
-export const AddEventModel = ({ addEvent, loading, addEventModalRef }) => {
-  const fileInputRef = useRef();
-
-  const handleChange = (event) => {
-    console.log("first", event.currentTarget.files[0]);
-  };
-
-  const closeAddModal = () => {
-    addEventModalRef.current.close();
+import { formatDate } from "../../../../helpers/commonHelpers";
+export const UpdateEventModel = ({
+  selectedEvent,
+  updateEvent,
+  loading,
+  updateEventModalRef,
+}) => {
+  const closeUpdateModal = () => {
+    updateEventModalRef.current.close();
   };
 
   return (
-    <dialog id="add_event_modal" className="modal" ref={addEventModalRef}>
+    <dialog id="update_event_modal" className="modal" ref={updateEventModalRef}>
       <div className="modal-box rounded-none">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-lg">ADD NEW EVENT</h3>
+        <h3 className="font-bold text-lg">UPDATE EVENT</h3>
         <div className="max-w-lg">
           <Formik
             enableReinitialize
             initialValues={{
-              name: "",
-              description: "",
-              date: new Date().toISOString().split("T")[0],
-              link: "",
-              status: "",
+              event_auto_id: selectedEvent ? selectedEvent.event_auto_id : "",
+              name: selectedEvent ? selectedEvent.name : "",
+              description: selectedEvent ? selectedEvent.description : "",
+              date: selectedEvent ? formatDate(selectedEvent.date) : "",
+              link: selectedEvent ? selectedEvent.link : "",
+              status: selectedEvent
+                ? selectedEvent.status === 1
+                  ? true
+                  : false
+                : false,
               file: null,
+              // Add more fields as needed
             }}
-            validationSchema={eventSchema} // Adjust this
+            validationSchema={eventSchemaUpdate} // Make sure to update this schema
             onSubmit={async (values, { resetForm }) => {
               const formData = new FormData();
+              formData.append("event_auto_id", values.event_auto_id);
               formData.append("name", values.name);
               formData.append("description", values.description);
               formData.append("date", values.date);
@@ -46,9 +52,9 @@ export const AddEventModel = ({ addEvent, loading, addEventModalRef }) => {
               formData.append("status", values.status === true ? 1 : 0);
               formData.append("type", "event");
               formData.append("imageFile", values.file);
-              addEvent(formData);
+              updateEvent(formData);
               resetForm();
-              closeAddModal();
+              closeUpdateModal();
             }}
           >
             {({ setFieldValue }) => (
@@ -76,7 +82,7 @@ export const AddEventModel = ({ addEvent, loading, addEventModalRef }) => {
                   type="submit"
                   disabled={loading}
                 >
-                  Submit
+                  Update
                 </button>
               </Form>
             )}

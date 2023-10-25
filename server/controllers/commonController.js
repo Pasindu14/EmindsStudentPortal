@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const { type } = req.body;
+    console.log("type", type);
     if (type == "event") {
       cb(null, "./uploads/events");
     } else {
@@ -21,25 +22,26 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 exports.uploadImage = (req, res) => {
-  upload.single("myFile")(req, res, (err) => {
-    if (err) {
-      const apiResponse = ApiResponse.failure(err.message);
-      return apiResponse;
-    }
+  return new Promise((resolve, reject) => {
+    upload.single("imageFile")(req, res, (err) => {
+      if (err) {
+        const apiResponse = ApiResponse.failure(err.message);
+        reject(apiResponse);
+        return;
+      }
 
-    if (!req.file) {
-      const apiResponse = ApiResponse.failure("No file uploaded");
-      return apiResponse;
-    }
+      if (!req.file) {
+        const apiResponse = ApiResponse.success();
+        resolve(apiResponse);
+        return;
+      }
 
-    const file = req.file; // The file information is stored in req.file
-
-    // Optionally, you might want to rename, move, or process the file in some way
-
-    const apiResponse = ApiResponse.success({
-      filename: file.filename,
-      path: file.path,
+      const file = req.file;
+      const apiResponse = ApiResponse.success({
+        filename: file.filename,
+        path: file.path,
+      });
+      resolve(apiResponse);
     });
-    return apiResponse;
   });
 };

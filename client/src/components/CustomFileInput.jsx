@@ -2,9 +2,7 @@ import React from "react";
 import { useField } from "formik";
 
 const CustomFileInput = ({ label, setFieldValue, ...props }) => {
-  const [meta] = useField(props);
-
-  console.log("meta", meta.error);
+  const [field, meta] = useField(props);
   return (
     <>
       <div className="form-control">
@@ -12,9 +10,7 @@ const CustomFileInput = ({ label, setFieldValue, ...props }) => {
           <span className="label-text-alt">{label}</span>
         </label>
         <input
-          id="file"
-          name="file"
-          type="file"
+          {...props}
           onChange={(event) => {
             setFieldValue("file", event.currentTarget.files[0]);
           }}

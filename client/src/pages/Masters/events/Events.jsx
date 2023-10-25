@@ -5,10 +5,9 @@ import { reactTableStyles } from "../../../core/constants/styles";
 import { confirmToast } from "../../../components/Toast";
 import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { formatDate } from "../../../helpers/commonHelpers";
-import { AddEventModel } from "./components/AddEventModel"; /* 
+import { AddEventModel } from "./components/AddEventModel";
 import { UpdateEventModel } from "./components/UpdateEventModel";
-import { SearchField } from "./components/Search"; */
-
+import { SearchField } from "./components/Search";
 import Card from "../../../components/Card";
 import { ThreeCircles } from "react-loader-spinner";
 import AnimatedComponent from "../../../components/AnimatedComponent";
@@ -59,6 +58,10 @@ export function Events() {
     setSelectedEvent(row);
   };
 
+  const handleRemoveButtonClick = (row) => {
+    confirmToast(() => removeEvent(row.event_auto_id));
+  };
+
   const eventColumns = [
     { name: "Name", cell: (row) => row.name },
     { name: "Description", cell: (row) => row.description },
@@ -79,12 +82,20 @@ export function Events() {
     {
       name: "Actions",
       cell: (row) => (
-        <button
-          className="btn btn-primary btn-sm rounded-none text-white font-inter"
-          onClick={() => handleUpdateButtonClick(row)}
-        >
-          Update
-        </button>
+        <>
+          <button
+            className="btn btn-primary btn-sm rounded-none text-white font-inter"
+            onClick={() => handleUpdateButtonClick(row)}
+          >
+            Update
+          </button>
+          <button
+            className="btn btn-error btn-sm rounded-none text-white font-inter ml-2"
+            onClick={() => handleRemoveButtonClick(row)}
+          >
+            Remove
+          </button>
+        </>
       ),
     },
   ];
@@ -111,13 +122,14 @@ export function Events() {
                 loading={loading}
                 addEventModalRef={addEventModalRef}
               />
-              {/*  <UpdateEventModel
+              <UpdateEventModel
                 updateEvent={updateEvent}
                 loading={loading}
                 selectedEvent={selectedEvent}
                 updateEventModalRef={updateEventModalRef}
               />
-              <SearchField handleFilter={handleFilter} /> */}
+
+              <SearchField handleFilter={handleFilter} />
               <div className="table-border">
                 <DataTable
                   columns={eventColumns}

@@ -74,6 +74,12 @@ export const eventSchema = yup.object().shape({
   description: yup.string().required("Description is required"),
   date: yup.date().required("Date is required"),
   link: yup.string().required("Link is required"),
-  file: yup.mixed().required("File is required"), // You may want more advanced validation here depending on your needs
-  status: yup.string().required("Status is required"),
+  file: yup.mixed().required("File is required"),
+});
+
+export const eventSchemaUpdate = yup.object().shape({
+  name: yup.string().required("Event name is required"),
+  description: yup.string().required("Description is required"),
+  date: yup.date().required("Date is required"),
+  link: yup.string().required("Link is required"),
 });

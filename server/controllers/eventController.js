@@ -22,59 +22,89 @@ exports.getEvents = (req, res) => {
   });
 };
 
-exports.addEvent = (req, res) => {
-  const { name, description, date, link, image, status } = req.body; // Update field names
+exports.addEvent = async (req, res) => {
+  try {
+    const uploadResponse = await uploadImage(req, res);
+    if (uploadResponse.status === "success") {
+      const image = uploadResponse.data.filename;
+      const { name, description, date, link, status } = req.body; // Update field names
+      const insertSql =
+        "INSERT INTO events (name, description, date, link, image, status) VALUES (?, ?, ?, ?, ?, ?)"; // Update to "events" table and field names
+      db.query(
+        insertSql,
+        [name, description, date, link, image, status], // Update field names
+        (err, results) => {
+          if (err) {
+            const apiResponse = ApiResponse.failure(err);
+            return res.json(apiResponse);
+          }
 
-  const uploadResponse = uploadImage(req, res);
-  console.log("uploadResponse", uploadResponse);
-  const insertSql =
-    "INSERT INTO events (name, description, date, link, image, status) VALUES (?, ?, ?, ?, ?, ?)"; // Update to "events" table and field names
-  db.query(
-    insertSql,
-    [name, description, date, link, image, status], // Update field names
-    (err, results) => {
-      if (err) {
-        const apiResponse = ApiResponse.failure(err);
-        return res.json(apiResponse);
-      }
-
-      const apiResponse = ApiResponse.success(
-        "New event has been successfully added."
+          const apiResponse = ApiResponse.success(
+            "New event has been successfully added."
+          );
+          res.json(apiResponse);
+        }
       );
-      res.json(apiResponse);
+    } else {
+      res.json(uploadResponse);
     }
-  );
+  } catch (error) {
+    console.log("An error occurred:", error);
+    res.json(error); // Or however y
+  }
 };
 
-exports.updateEvent = (req, res) => {
-  const { event_auto_id, name, description, date, link, image, status } =
-    req.body; // Update field names
-  const updateSql = `
+exports.updateEvent = async (req, res) => {
+  try {
+    const uploadResponse = await uploadImage(req, res);
+    if (uploadResponse.status === "success") {
+      const imageExist = uploadResponse.data == null ? false : true;
+
+      let image = "";
+      if (imageExist) {
+        image = uploadResponse.data.filename;
+      }
+      const { event_auto_id, name, description, date, link, status } = req.body; // Update field names
+      const updateSql =
+        imageExist === true
+          ? `
+      UPDATE events
+      SET name = ?, description = ?, date = ?, link = ?, image = ?, status = ?
+      WHERE event_auto_id = ?;
+    `
+          : `
     UPDATE events
-    SET name = ?, description = ?, date = ?, link = ?, image = ?, status = ?
+    SET name = ?, description = ?, date = ?, link = ?, status = ?
     WHERE event_auto_id = ?;
   `;
 
-  db.query(
-    updateSql,
-    [name, description, date, link, image, status, event_auto_id], // Update field names
-    (err, results) => {
-      if (err) {
-        const apiResponse = ApiResponse.failure(err);
-        return res.json(apiResponse);
-      }
+      db.query(
+        updateSql,
+        [name, description, date, link, image, status, event_auto_id], // Update field names
+        (err, results) => {
+          if (err) {
+            const apiResponse = ApiResponse.failure(err);
+            return res.json(apiResponse);
+          }
 
-      const apiResponse = ApiResponse.success(
-        "Event record has been successfully updated."
+          const apiResponse = ApiResponse.success(
+            "Event record has been successfully updated."
+          );
+          res.json(apiResponse);
+        }
       );
-      res.json(apiResponse);
+    } else {
+      res.json(uploadResponse);
     }
-  );
+  } catch (error) {
+    console.log("An error occurred:", error);
+    res.json(error);
+  }
 };
 
 exports.removeEvent = (req, res) => {
   const event_auto_id = req.body.id; // Update field name
-
+  console.log("first", event_auto_id);
   const deleteSql = "DELETE FROM events WHERE event_auto_id = ?"; // Update to "events" table and field name
 
   db.query(deleteSql, [event_auto_id], (err, results) => {
