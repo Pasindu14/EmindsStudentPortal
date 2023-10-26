@@ -462,3 +462,72 @@ export const removeMapping = async (id) => {
     return error;
   }
 };
+
+export const getSessions = async () => {
+  try {
+    const response = await API.get("api/sessions/getSessions", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new session
+export const addSession = async (formData) => {
+  try {
+    const response = await API.post("api/sessions/addSession", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const uploadSessionSlide = async (formData) => {
+  try {
+    const response = await API.post("api/sessions/uploadSlideImage", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing session
+export const updateSession = async (formData) => {
+  try {
+    const response = await API.put("api/sessions/updateSession", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove a session
+export const removeSession = async (id) => {
+  try {
+    const response = await API.delete("api/sessions/removeSession", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

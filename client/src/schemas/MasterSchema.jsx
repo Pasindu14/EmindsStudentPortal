@@ -92,3 +92,12 @@ export const mappingSchema = yup.object().shape({
     .min(1, "At least one student is required")
     .required("Students are required"),
 });
+
+export const sessionSchema = yup.object().shape({
+  title: yup.string().required("Session title is required"),
+  course: yup.string().required("Course is required"),
+  batch: yup.string().required("Batch is required"),
+  zoom_link: yup.string().required("Zoom link is required"),
+  zoom_password: yup.string().required("Zoom password is required"),
+  file: yup.mixed().required("File is required"),
+});

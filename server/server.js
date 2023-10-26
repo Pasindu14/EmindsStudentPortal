@@ -1,30 +1,6 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
-const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const { type } = req.body;
-    if (type == "event") {
-      cb(null, "./uploads/events");
-    } else {
-      cb(null, "./uploads");
-    }
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname +
-        "-" +
-        Date.now() +
-        "." +
-        file.originalname.split(".").pop()
-    );
-  },
-});
-
-const upload = multer({ storage: storage });
 
 const db = require("./config/db");
 const ApiResponse = require("./models/api_response");
@@ -38,6 +14,7 @@ const questionController = require("./controllers/questionController");
 const commonController = require("./controllers/commonController");
 const eventController = require("./controllers/eventController");
 const mappingController = require("./controllers/mappingController");
+const sessionController = require("./controllers/sessionController");
 
 const app = express();
 const port = 5000;
@@ -124,6 +101,12 @@ app.post("/api/mappings/addMapping", mappingController.addMapping);
 app.put("/api/mappings/updateMapping", mappingController.updateMapping);
 app.put("/api/mappings/updateBlockStatus", mappingController.updateBlockStatus);
 app.delete("/api/mappings/removeMapping", mappingController.removeMapping);
+
+app.get("/api/sessions/getSessions", sessionController.getSessions);
+app.post("/api/sessions/addSession", sessionController.addSession);
+app.post("/api/sessions/uploadSlideImage", sessionController.uploadSlideImage);
+app.put("/api/sessions/updateSession", sessionController.updateSession);
+app.delete("/api/sessions/removeSession", sessionController.removeSession);
 
 // Start the Express server
 app.listen(port, () => {

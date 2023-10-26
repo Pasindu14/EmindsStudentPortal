@@ -6,6 +6,7 @@ import { Jobs } from "../pages/Masters/jobs/Jobs";
 import { Questions } from "../pages/Masters/questions/Questions";
 import { Events } from "../pages/Masters/events/Events";
 import { BatchMapping } from "../pages/BatchMapping/BatchMapping";
+import { Sessions } from "../pages/Masters/sessions/Session";
 
 import AppContainer from "../AppContainer";
 import { createBrowserRouter } from "react-router-dom";
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: "events",
         element: <Events />,
+      },
+      {
+        path: "sessions",
+        element: <Sessions />,
       },
       {
         path: "batch-mapping",

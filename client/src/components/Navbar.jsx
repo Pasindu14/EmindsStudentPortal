@@ -71,6 +71,13 @@ function Navbar() {
                           Questions
                         </Link>
                         <Link
+                          to={`sessions`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
+                        >
+                          Sessions
+                        </Link>
+                        <Link
                           to={`jobs`}
                           onClick={() => setMastersListVisible(false)}
                           className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
@@ -84,6 +91,7 @@ function Navbar() {
                         >
                           Events
                         </Link>
+
                         {/* Add more master items as needed */}
                       </div>
                     )}

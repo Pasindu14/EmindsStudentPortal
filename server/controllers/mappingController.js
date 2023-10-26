@@ -13,7 +13,7 @@ exports.getMappings = (req, res) => {
         students_mapping.block_status
       FROM 
       students_mapping
-      JOIN students ON students_mapping.auto_id = students.auto_id
+      JOIN students ON students_mapping.student_auto_id = students.auto_id
       JOIN batches ON students_mapping.batch_auto_id = batches.auto_id
       JOIN courses ON batches.course_auto_id = courses.auto_id
     `;

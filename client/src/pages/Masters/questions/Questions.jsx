@@ -4,9 +4,7 @@ import DataTable from "react-data-table-component";
 import { reactTableStyles } from "../../../core/constants/styles";
 import { confirmToast } from "../../../components/Toast";
 import { useHandleErrors } from "../../../hooks/useHandleErrors";
-
 import { SearchField } from "./components/Search";
-
 import Card from "../../../components/Card";
 import { ThreeCircles } from "react-loader-spinner";
 import AnimatedComponent from "../../../components/AnimatedComponent";

@@ -18,17 +18,16 @@ export const StudentMultiSelect = ({ setFieldValue, ...props }) => {
     }),
     menu: (base) => ({
       ...base,
-      zIndex: 100,
+      zIndex: 99,
     }),
     control: (baseStyles, state) => ({
       ...baseStyles,
       border: "1px solid #8F5CFF !important",
       // This line disable the blue border
       boxShadow: "2px solid #8F5CFF !important",
-      "&:hover": {
-        border: "2px solid #8F5CFF !important",
-      },
+      "&:hover": {},
       borderRadius: 0,
+      height: "50px",
     }),
   };
 
