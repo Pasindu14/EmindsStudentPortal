@@ -83,3 +83,12 @@ export const eventSchemaUpdate = yup.object().shape({
   date: yup.date().required("Date is required"),
   link: yup.string().required("Link is required"),
 });
+
+export const mappingSchema = yup.object().shape({
+  batch: yup.string().required("Batch is required"),
+  course: yup.string().required("Course is required"),
+  students: yup
+    .array()
+    .min(1, "At least one student is required")
+    .required("Students are required"),
+});

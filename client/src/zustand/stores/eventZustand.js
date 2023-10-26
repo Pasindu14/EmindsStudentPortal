@@ -44,7 +44,6 @@ const useEventStore = create((set, get) => ({
     setInitial(set);
     try {
       const response = await addEvent(formData);
-      console.log("response", response);
       const { status, data, error } = response.data;
       if (status === "success") {
         set(() => ({
@@ -117,6 +116,8 @@ function setError(set, error) {
     hasErrors: true,
     loading: false,
     statusMessage: error,
+    filteredEventData: [],
+    eventData: [],
   }));
 }
 

@@ -393,3 +393,72 @@ export const removeEvent = async (id) => {
     return error;
   }
 };
+
+export const getMappings = async () => {
+  try {
+    const response = await API.get("api/mappings/getMappings", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Add a new mapping
+export const addMapping = async (formData) => {
+  try {
+    const response = await API.post("api/mappings/addMapping", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Update an existing mapping
+export const updateMapping = async (formData) => {
+  try {
+    const response = await API.put("api/mappings/updateMapping", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const updateBlockingStatus = async (formData) => {
+  try {
+    const response = await API.put("api/mappings/updateBlockStatus", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Remove a mapping
+export const removeMapping = async (id) => {
+  try {
+    const response = await API.delete("api/mappings/removeMapping", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: id },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

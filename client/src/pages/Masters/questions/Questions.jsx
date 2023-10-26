@@ -129,7 +129,7 @@ export function Questions() {
             Update
           </button>
           <button
-            className="btn btn-error btn-sm rounded-none text-white font-inter"
+            className="btn btn-error btn-sm rounded-none text-white font-inter ml-2"
             onClick={() => handleRemoveButtonClick(row)}
           >
             Remove

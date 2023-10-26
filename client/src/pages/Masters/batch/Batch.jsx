@@ -53,10 +53,6 @@ export function Batches() {
     setSelectedBatch(row);
   };
 
-  const handleRemoveButtonClick = (row) => {
-    confirmToast(() => removeBatch(row.auto_id));
-  };
-
   const batchColumns = [
     {
       name: "Batch No",
@@ -100,12 +96,6 @@ export function Batches() {
               onClick={() => handleAddButtonClick(row)}
             >
               Update
-            </button>
-            <button
-              className="btn btn-error btn-sm rounded-none text-white font-inter"
-              onClick={() => handleRemoveButtonClick(row)}
-            >
-              Remove
             </button>
           </div>
         );

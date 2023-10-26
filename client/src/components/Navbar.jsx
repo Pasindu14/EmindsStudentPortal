@@ -77,6 +77,13 @@ function Navbar() {
                         >
                           Jobs
                         </Link>
+                        <Link
+                          to={`events`}
+                          onClick={() => setMastersListVisible(false)}
+                          className="block text-black text-lg font-bold font-inter py-2 px-2 hover:bg-[#570DF8] hover:text-white"
+                        >
+                          Events
+                        </Link>
                         {/* Add more master items as needed */}
                       </div>
                     )}

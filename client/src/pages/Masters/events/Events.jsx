@@ -50,7 +50,6 @@ export function Events() {
 
   useEffect(() => {
     getEvents();
-    // loadAnyOtherData();
   }, [getEvents]);
 
   const handleUpdateButtonClick = (row) => {

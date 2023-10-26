@@ -7,6 +7,7 @@ import { AddJobModal } from "./components/AddJobModel"; // Adjusted to AddJobMod
 import { UpdateJobModal } from "./components/UpdateJobModel"; // Adjusted to UpdateJobModal
 import { SearchField } from "./components/Search";
 import Card from "../../../components/Card";
+import { confirmToast } from "../../../components/Toast";
 
 export function Jobs() {
   // Adjusted to Jobs
@@ -32,6 +33,7 @@ export function Jobs() {
     filteredJobData, // Adjusted to filteredJobData
     setSelectedJob, // Adjusted to setSelectedJob
     selectedJob, // Adjusted to selectedJob
+    removeJob,
   } = useJobStore(); // Adjusted to useJobStore
 
   useHandleErrors(hasErrors, statusMessage);
@@ -51,7 +53,9 @@ export function Jobs() {
     showUpdateModal();
     setSelectedJob(row); // Adjusted to setSelectedJob
   };
-
+  const handleRemoveButtonClick = (row) => {
+    confirmToast(() => removeJob(row.job_auto_id));
+  };
   const jobColumns = [
     // Adjusted to jobColumns
     {
@@ -76,6 +80,7 @@ export function Jobs() {
     },
     {
       name: "Actions",
+      minWidth: "15rem",
       cell: function (row) {
         return (
           <div>
@@ -84,6 +89,12 @@ export function Jobs() {
               onClick={() => handleUpdateButtonClick(row)} // Adjusted to handleUpdateButtonClick
             >
               Update
+            </button>
+            <button
+              className="btn btn-error btn-sm rounded-none text-white font-inter ml-2"
+              onClick={() => handleRemoveButtonClick(row)} // Adjusted to handleUpdateButtonClick
+            >
+              Remove
             </button>
           </div>
         );

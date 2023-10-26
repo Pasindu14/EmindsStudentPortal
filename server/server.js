@@ -37,6 +37,7 @@ const jobController = require("./controllers/jobController");
 const questionController = require("./controllers/questionController");
 const commonController = require("./controllers/commonController");
 const eventController = require("./controllers/eventController");
+const mappingController = require("./controllers/mappingController");
 
 const app = express();
 const port = 5000;
@@ -117,6 +118,12 @@ app.get("/api/events/getEvents", eventController.getEvents);
 app.post("/api/events/addEvent", eventController.addEvent);
 app.put("/api/events/updateEvent", eventController.updateEvent);
 app.delete("/api/events/removeEvent", eventController.removeEvent);
+
+app.get("/api/mappings/getMappings", mappingController.getMappings);
+app.post("/api/mappings/addMapping", mappingController.addMapping);
+app.put("/api/mappings/updateMapping", mappingController.updateMapping);
+app.put("/api/mappings/updateBlockStatus", mappingController.updateBlockStatus);
+app.delete("/api/mappings/removeMapping", mappingController.removeMapping);
 
 // Start the Express server
 app.listen(port, () => {
