@@ -4,7 +4,8 @@ import {
   getStudents,
   removeStudent,
   updateStudent,
-} from "../actions/masterActions";
+} from "../actions/master-actions";
+import { ERROR_MESSAGE } from "../../core/constants/messages";
 
 const useStudentStore = create((set, get) => ({
   studentData: [],
@@ -24,7 +25,7 @@ const useStudentStore = create((set, get) => ({
     }));
     try {
       const response = await getStudents();
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -34,17 +35,17 @@ const useStudentStore = create((set, get) => ({
           statusMessage: "",
         }));
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   addStudent: async (formData) => {
     setInitial(set);
     try {
       const response = await addStudent(formData);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -53,17 +54,18 @@ const useStudentStore = create((set, get) => ({
         }));
         await get().getStudents();
       } else {
-        setError(set, error);
+        setError(set);
       }
     } catch (error) {
-      setError(set, error);
+      setError(set);
     }
   },
   updateStudent: async (formData) => {
     setInitial(set);
     try {
       const response = await updateStudent(formData);
-      const { status, data, error } = response.data;
+
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -72,17 +74,17 @@ const useStudentStore = create((set, get) => ({
         }));
         await get().getStudents();
       } else {
-        setError(set, error);
+        setError(set);
       }
     } catch (error) {
-      setError(set, error);
+      setError(set);
     }
   },
   removeStudent: async (id) => {
     setInitial(set);
     try {
       const response = await removeStudent(id);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -91,10 +93,10 @@ const useStudentStore = create((set, get) => ({
         }));
         await get().getStudents();
       } else {
-        setError(set, error);
+        setError(set);
       }
     } catch (error) {
-      setError(set, error);
+      setError(set);
     }
   },
   filter: (searchTerm) => {
@@ -111,11 +113,11 @@ function setInitial(set) {
   set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
-function setError(set, error) {
+function setError(set) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    statusMessage: error,
+    statusMessage: ERROR_MESSAGE,
   }));
 }
 

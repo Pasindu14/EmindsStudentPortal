@@ -1,37 +1,39 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useCourseStore } from "../../../zustand/stores/courseZustand"; // Change to useCourseStore
+import { useCourseStore } from "../../../zustand/stores/course-zustand";
 import DataTable from "react-data-table-component";
 import { reactTableStyles } from "../../../core/constants/styles";
 import { useHandleErrors } from "../../../hooks/useHandleErrors";
-import { AddCourseModal } from "./components/AddCourseModel"; // Change to AddCourseModal
-import { UpdateCourseModel } from "./components/UpdateCourseModel"; // Change to UpdateCourseModel
+import { AddCourseModal } from "./components/AddCourseModel";
+import { UpdateCourseModel } from "./components/UpdateCourseModel";
 import { SearchField } from "./components/Search";
+import { ThreeCircles } from "react-loader-spinner";
+import AnimatedComponent from "../../../components/AnimatedComponent";
 import Card from "../../../components/Card";
 
 export function Courses() {
-  const addCourseModalRef = useRef(null); // Change to addCourseModalRef
-  const updateCourseModalRef = useRef(null); // Change to updateCourseModalRef
+  const addCourseModalRef = useRef(null);
+  const updateCourseModalRef = useRef(null);
 
   const showAddModal = () => {
-    addCourseModalRef.current.showModal(); // Change to addCourseModalRef
+    addCourseModalRef.current.showModal();
   };
 
   const showUpdateModal = () => {
-    updateCourseModalRef.current.showModal(); // Change to updateCourseModalRef
+    updateCourseModalRef.current.showModal();
   };
 
   const {
     loading,
     statusMessage,
     hasErrors,
-    getCourses, // Change to getCourses
-    addCourse, // Change to addCourse
-    updateCourse, // Change to updateCourse
+    getCourses,
+    addCourse,
+    updateCourse,
     filter,
-    filteredCourseData, // Change to filteredCourseData
-    setSelectedCourse, // Change to setSelectedCourse
-    selectedCourse, // Change to selectedCourse
-  } = useCourseStore(); // Change to useCourseStore
+    filteredCourseData,
+    setSelectedCourse,
+    selectedCourse,
+  } = useCourseStore();
 
   useHandleErrors(hasErrors, statusMessage);
 
@@ -43,12 +45,12 @@ export function Courses() {
   );
 
   useEffect(() => {
-    getCourses(); // Change to getCourses
-  }, [getCourses]); // Change to getCourses
+    getCourses();
+  }, [getCourses]);
 
   const handleAddButtonClick = (row) => {
     showUpdateModal();
-    setSelectedCourse(row); // Change to setSelectedCourse
+    setSelectedCourse(row);
   };
 
   const courseColumns = [
@@ -79,41 +81,55 @@ export function Courses() {
 
   return (
     <>
-      <Card title="MANAGE STUDENTS">
-        <div className="font-inter">
-          <button
-            className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
-            type="submit"
-            onClick={() => showAddModal()}
-          >
-            Add new course
-          </button>
-
-          <AddCourseModal // Change to AddCourseModal
-            addCourse={addCourse} // Change to addCourse
-            loading={loading}
-            addCourseModalRef={addCourseModalRef} // Change to addCourseModalRef
+      {loading === true ? (
+        <div className="w-screen h-[90vh] flex items-center justify-center">
+          <ThreeCircles
+            height="100"
+            width="100"
+            color="#570DF8"
+            visible={true}
+            ariaLabel="three-circles-rotating"
           />
-          <UpdateCourseModel // Change to UpdateCourseModel
-            updateCourse={updateCourse} // Change to updateCourse
-            loading={loading}
-            selectedCourse={selectedCourse} // Change to selectedCourse
-            updateCourseModalRef={updateCourseModalRef} // Change to updateCourseModalRef
-          />
-
-          <SearchField handleFilter={handleFilter} />
-
-          <div className="table-border">
-            <DataTable
-              columns={courseColumns} // Change to courseColumns
-              data={filteredCourseData} // Change to filteredCourseData
-              progressPending={loading}
-              pagination
-              customStyles={reactTableStyles}
-            />
-          </div>
         </div>
-      </Card>
+      ) : (
+        <AnimatedComponent>
+          <Card title="MANAGE STUDENTS">
+            <div className="font-inter">
+              <button
+                className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
+                type="submit"
+                onClick={() => showAddModal()}
+              >
+                Add new course
+              </button>
+
+              <AddCourseModal
+                addCourse={addCourse}
+                loading={loading}
+                addCourseModalRef={addCourseModalRef}
+              />
+              <UpdateCourseModel
+                updateCourse={updateCourse}
+                loading={loading}
+                selectedCourse={selectedCourse}
+                updateCourseModalRef={updateCourseModalRef}
+              />
+
+              <SearchField handleFilter={handleFilter} />
+
+              <div className="table-border">
+                <DataTable
+                  columns={courseColumns}
+                  data={filteredCourseData}
+                  progressPending={loading}
+                  pagination
+                  customStyles={reactTableStyles}
+                />
+              </div>
+            </div>
+          </Card>
+        </AnimatedComponent>
+      )}
     </>
   );
 }

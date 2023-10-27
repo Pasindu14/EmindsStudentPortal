@@ -1,6 +1,8 @@
 import { batchSchema } from "../../../../schemas/MasterSchema"; // Change schema
 import { Form, Formik } from "formik";
 import CustomInput from "../../../../components/CustomInput";
+import { CourseSelect } from "./CourseSelect";
+import CustomCheckbox from "../../../../components/CustomCheckbox";
 
 export const AddBatchModal = ({ addBatch, loading, addBatchModalRef }) => {
   const closeAddModal = () => {
@@ -19,13 +21,12 @@ export const AddBatchModal = ({ addBatch, loading, addBatchModalRef }) => {
         <div className="max-w-lg">
           <Formik
             initialValues={{
-              auto_id: "",
               batch_no: "",
               batch_name: "",
               zoom_link: "",
-              course_auto_id: "",
-              start_date: "",
-              end_date: "",
+              course: "",
+              start_date: new Date().toISOString().split("T")[0],
+              end_date: new Date().toISOString().split("T")[0],
               status: "",
               password: "",
               price: "",
@@ -33,31 +34,31 @@ export const AddBatchModal = ({ addBatch, loading, addBatchModalRef }) => {
             validationSchema={batchSchema} // Change schema
             onSubmit={async (values, { resetForm }) => {
               const formData = new FormData();
-              // Append all fields
-              Object.keys(values).forEach((key) => {
-                formData.append(key, values[key]);
-              });
-              addBatch(formData); // Change function
+              formData.append("batch_no", values.batch_no);
+              formData.append("batch_name", values.batch_name);
+              formData.append("zoom_link", values.zoom_link);
+              formData.append("course_auto_id", values.course);
+              formData.append("start_date", values.start_date);
+              formData.append("end_date", values.end_date);
+              formData.append("status", values.status === true ? 1 : 0);
+              formData.append("password", values.password);
+              formData.append("price", values.price);
+              addBatch(formData);
               closeAddModal();
               resetForm();
             }}
           >
             {() => (
               <Form>
-                <CustomInput label="Auto ID" name="auto_id" type="text" />
                 <CustomInput label="Batch No" name="batch_no" type="text" />
                 <CustomInput label="Batch Name" name="batch_name" type="text" />
                 <CustomInput label="Zoom Link" name="zoom_link" type="text" />
-                <CustomInput
-                  label="Course Auto ID"
-                  name="course_auto_id"
-                  type="text"
-                />
+                <CourseSelect label="Course" name="course" />
                 <CustomInput label="Start Date" name="start_date" type="date" />
                 <CustomInput label="End Date" name="end_date" type="date" />
-                <CustomInput label="Status" name="status" type="text" />
                 <CustomInput label="Password" name="password" type="password" />
                 <CustomInput label="Price" name="price" type="number" />
+                <CustomCheckbox label="Status" name="status" type="checkbox" />
                 <button
                   className={`btn w-full rounded-none mt-4 ${
                     loading ? "text-gray-500" : "btn-primary text-white"

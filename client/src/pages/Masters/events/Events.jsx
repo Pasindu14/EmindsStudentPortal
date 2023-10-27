@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useEventStore } from "../../../zustand/stores/eventZustand"; // Adjust this import
+import { useEventStore } from "../../../zustand/stores/event-zustand";
 import DataTable from "react-data-table-component";
 import { reactTableStyles } from "../../../core/constants/styles";
 import { confirmToast } from "../../../components/Toast";
@@ -36,8 +36,7 @@ export function Events() {
     setSelectedEvent,
     selectedEvent,
     removeEvent,
-    // Any other relevant methods
-  } = useEventStore(); // Adjusted store hook
+  } = useEventStore();
 
   useHandleErrors(hasErrors, statusMessage);
 

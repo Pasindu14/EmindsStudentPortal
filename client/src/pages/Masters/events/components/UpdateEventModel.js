@@ -39,9 +39,8 @@ export const UpdateEventModel = ({
                   : false
                 : false,
               file: null,
-              // Add more fields as needed
             }}
-            validationSchema={eventSchemaUpdate} // Make sure to update this schema
+            validationSchema={eventSchemaUpdate}
             onSubmit={async (values, { resetForm }) => {
               const formData = new FormData();
               formData.append("event_auto_id", values.event_auto_id);

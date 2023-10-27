@@ -98,7 +98,7 @@ function Navbar() {
                   </div>
 
                   <Link
-                    to={`batches`}
+                    to={`batch-mapping`}
                     className="hover:bg-[#570DF8] hover:text-white text-black px-3 py-2 text-lg font-bold font-inter"
                   >
                     MAPPING

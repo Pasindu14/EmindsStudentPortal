@@ -7,7 +7,8 @@ import {
   getBatches,
   getCourses,
   getExams,
-} from "../actions/masterActions"; // Make sure you have questionActions similar to masterActions
+} from "../actions/master-actions";
+import { ERROR_MESSAGE } from "../../core/constants/messages";
 
 const useQuestionStore = create((set, get) => ({
   questionData: [],
@@ -37,15 +38,10 @@ const useQuestionStore = create((set, get) => ({
           examData: examResponse.data.data,
         }));
       } else {
-        setError(
-          set,
-          courseResponse.data.error ||
-            batchResponse.data.error ||
-            examResponse.data.error
-        );
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   setSelectedQuestion: (question) => {
@@ -69,10 +65,10 @@ const useQuestionStore = create((set, get) => ({
           statusMessage: "",
         }));
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   addQuestion: async (formData) => {
@@ -88,10 +84,10 @@ const useQuestionStore = create((set, get) => ({
         }));
         await get().getQuestions();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   updateQuestion: async (formData) => {
@@ -109,8 +105,8 @@ const useQuestionStore = create((set, get) => ({
       } else {
         setError(set, error);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   removeQuestion: async (id) => {
@@ -126,10 +122,10 @@ const useQuestionStore = create((set, get) => ({
         }));
         await get().getQuestions();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   filter: (searchTerm) => {
@@ -147,11 +143,11 @@ function setInitial(set) {
   set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
-function setError(set, error) {
+function setError(set) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    statusMessage: error,
+    statusMessage: ERROR_MESSAGE,
   }));
 }
 

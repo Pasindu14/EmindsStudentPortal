@@ -8,7 +8,7 @@ import {
   getCourses,
   getBatches,
   getStudents,
-} from "../../actions/masterActions";
+} from "../../actions/master-actions";
 const useMappingStore = create((set, get) => ({
   mappingData: [],
   filteredMappingData: [],

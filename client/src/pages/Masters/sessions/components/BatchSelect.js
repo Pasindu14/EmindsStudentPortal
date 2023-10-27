@@ -1,5 +1,5 @@
 import React from "react";
-import { useSessionStore } from "../../../../zustand/stores/sessionZustand";
+import { useSessionStore } from "../../../../zustand/stores/session-zustand";
 import { useField } from "formik";
 
 export const BatchSelect = ({ ...props }) => {

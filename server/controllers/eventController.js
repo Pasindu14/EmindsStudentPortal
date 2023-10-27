@@ -27,12 +27,12 @@ exports.addEvent = async (req, res) => {
     const uploadResponse = await uploadImage(req, res);
     if (uploadResponse.status === "success") {
       const image = uploadResponse.data.filename;
-      const { name, description, date, link, status } = req.body; // Update field names
+      const { name, description, date, link, status } = req.body;
       const insertSql =
-        "INSERT INTO events (name, description, date, link, image, status) VALUES (?, ?, ?, ?, ?, ?)"; // Update to "events" table and field names
+        "INSERT INTO events (name, description, date, link, image, status) VALUES (?, ?, ?, ?, ?, ?)";
       db.query(
         insertSql,
-        [name, description, date, link, image, status], // Update field names
+        [name, description, date, link, image, status],
         (err, results) => {
           if (err) {
             const apiResponse = ApiResponse.failure(err);
@@ -50,7 +50,7 @@ exports.addEvent = async (req, res) => {
     }
   } catch (error) {
     console.log("An error occurred:", error);
-    res.json(error); // Or however y
+    res.json(error);
   }
 };
 
@@ -59,12 +59,11 @@ exports.updateEvent = async (req, res) => {
     const uploadResponse = await uploadImage(req, res);
     if (uploadResponse.status === "success") {
       const imageExist = uploadResponse.data == null ? false : true;
-
       let image = "";
       if (imageExist) {
         image = uploadResponse.data.filename;
       }
-      const { event_auto_id, name, description, date, link, status } = req.body; // Update field names
+      const { event_auto_id, name, description, date, link, status } = req.body;
       const updateSql =
         imageExist === true
           ? `
@@ -80,7 +79,9 @@ exports.updateEvent = async (req, res) => {
 
       db.query(
         updateSql,
-        [name, description, date, link, image, status, event_auto_id], // Update field names
+        imageExist === true
+          ? [name, description, date, link, image, status, event_auto_id]
+          : [name, description, date, link, status, event_auto_id],
         (err, results) => {
           if (err) {
             const apiResponse = ApiResponse.failure(err);
@@ -103,9 +104,8 @@ exports.updateEvent = async (req, res) => {
 };
 
 exports.removeEvent = (req, res) => {
-  const event_auto_id = req.body.id; // Update field name
-  console.log("first", event_auto_id);
-  const deleteSql = "DELETE FROM events WHERE event_auto_id = ?"; // Update to "events" table and field name
+  const event_auto_id = req.body.id;
+  const deleteSql = "DELETE FROM events WHERE event_auto_id = ?";
 
   db.query(deleteSql, [event_auto_id], (err, results) => {
     if (err) {

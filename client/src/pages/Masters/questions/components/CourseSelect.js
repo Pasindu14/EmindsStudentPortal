@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuestionStore } from "../../../../zustand/stores/questionZustand";
+import { useQuestionStore } from "../../../../zustand/stores/question-zustand";
 import { useField } from "formik";
 
 export const CourseSelect = ({ ...props }) => {

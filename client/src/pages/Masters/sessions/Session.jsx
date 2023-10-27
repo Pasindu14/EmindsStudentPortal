@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useSessionStore } from "../../../zustand/stores/sessionZustand"; // Adjust this import
+import { useSessionStore } from "../../../zustand/stores/session-zustand"; // Adjust this import
 import DataTable from "react-data-table-component";
 import { reactTableStyles } from "../../../core/constants/styles";
 import { confirmToast } from "../../../components/Toast";

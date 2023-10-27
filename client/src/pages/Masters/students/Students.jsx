@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useStudentStore } from "../../../zustand/stores/masterZustand";
+import { useStudentStore } from "../../../zustand/stores/student-zustand";
 import DataTable from "react-data-table-component";
 import { reactTableStyles } from "../../../core/constants/styles";
 import { confirmToast } from "../../../components/Toast";
@@ -7,6 +7,9 @@ import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { AddStudentModal } from "./components/AddStudentModel";
 import { UpdateStudentModel } from "./components/UpdateStudentModel";
 import { SearchField } from "./components/Search";
+import { formatDate } from "../../../helpers/commonHelpers";
+import { ThreeCircles } from "react-loader-spinner";
+import AnimatedComponent from "../../../components/AnimatedComponent";
 import Card from "../../../components/Card";
 
 export function Students() {
@@ -81,7 +84,7 @@ export function Students() {
     {
       name: "Birth Day",
       cell: function (row) {
-        return new Date(row.birthDay).toLocaleDateString("en-CA");
+        return formatDate(row.birthDay);
       },
     },
     {
@@ -109,41 +112,55 @@ export function Students() {
 
   return (
     <>
-      <Card title="MANAGE STUDENTS">
-        <div className="font-inter">
-          <button
-            className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
-            type="submit"
-            onClick={() => showAddModal()}
-          >
-            Add new student
-          </button>
-
-          <AddStudentModal
-            addStudent={addStudent}
-            loading={loading}
-            addStudentModalRef={addStudentModalRef}
+      {loading === true ? (
+        <div className="w-screen h-[90vh] flex items-center justify-center">
+          <ThreeCircles
+            height="100"
+            width="100"
+            color="#570DF8"
+            visible={true}
+            ariaLabel="three-circles-rotating"
           />
-          <UpdateStudentModel
-            updateStudent={updateStudent}
-            loading={loading}
-            selectedStudent={selectedStudent}
-            updateStudentModalRef={updateStudentModalRef}
-          />
-
-          <SearchField handleFilter={handleFilter} />
-
-          <div className="table-border">
-            <DataTable
-              columns={studentColumns}
-              data={filteredStudentData}
-              progressPending={loading}
-              pagination
-              customStyles={reactTableStyles}
-            />
-          </div>
         </div>
-      </Card>
+      ) : (
+        <AnimatedComponent>
+          <Card title="MANAGE STUDENTS">
+            <div className="font-inter">
+              <button
+                className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
+                type="submit"
+                onClick={() => showAddModal()}
+              >
+                Add new student
+              </button>
+
+              <AddStudentModal
+                addStudent={addStudent}
+                loading={loading}
+                addStudentModalRef={addStudentModalRef}
+              />
+              <UpdateStudentModel
+                updateStudent={updateStudent}
+                loading={loading}
+                selectedStudent={selectedStudent}
+                updateStudentModalRef={updateStudentModalRef}
+              />
+
+              <SearchField handleFilter={handleFilter} />
+
+              <div className="table-border">
+                <DataTable
+                  columns={studentColumns}
+                  data={filteredStudentData}
+                  progressPending={loading}
+                  pagination
+                  customStyles={reactTableStyles}
+                />
+              </div>
+            </div>
+          </Card>
+        </AnimatedComponent>
+      )}
     </>
   );
 }

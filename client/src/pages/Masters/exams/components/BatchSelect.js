@@ -1,5 +1,5 @@
 import React from "react";
-import { useExamStore } from "../../../../zustand/stores/examZustand";
+import { useExamStore } from "../../../../zustand/stores/exam-zustand";
 import { useField } from "formik";
 
 export const BatchSelect = ({ ...props }) => {

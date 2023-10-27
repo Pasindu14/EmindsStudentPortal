@@ -4,7 +4,8 @@ import {
   getCourses,
   removeCourse,
   updateCourse,
-} from "../actions/masterActions";
+} from "../actions/master-actions";
+import { ERROR_MESSAGE } from "../../core/constants/messages";
 
 const useCourseStore = create((set, get) => ({
   courseData: [],
@@ -24,7 +25,7 @@ const useCourseStore = create((set, get) => ({
     }));
     try {
       const response = await getCourses();
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -34,10 +35,10 @@ const useCourseStore = create((set, get) => ({
           statusMessage: "",
         }));
       } else {
-        setError(set, error);
+        setError(set);
       }
     } catch (error) {
-      setError(set, error);
+      setError(set);
     }
   },
   addCourse: async (formData) => {
@@ -55,8 +56,8 @@ const useCourseStore = create((set, get) => ({
       } else {
         setError(set, error);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   updateCourse: async (formData) => {
@@ -64,7 +65,7 @@ const useCourseStore = create((set, get) => ({
     try {
       const response = await updateCourse(formData);
 
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -73,17 +74,17 @@ const useCourseStore = create((set, get) => ({
         }));
         await get().getCourses();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   removeCourse: async (id) => {
     setInitial(set);
     try {
       const response = await removeCourse(id);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -92,10 +93,10 @@ const useCourseStore = create((set, get) => ({
         }));
         await get().getCourses();
       } else {
-        setError(set, error);
+        setError(set);
       }
     } catch (error) {
-      setError(set, error);
+      setError(set);
     }
   },
   filter: (searchTerm) => {
@@ -112,11 +113,11 @@ function setInitial(set) {
   set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
-function setError(set, error) {
+function setError(set) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    statusMessage: error,
+    statusMessage: ERROR_MESSAGE,
   }));
 }
 

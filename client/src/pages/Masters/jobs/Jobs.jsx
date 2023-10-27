@@ -1,40 +1,41 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useJobStore } from "../../../zustand/stores/jobZustand"; // Adjusted to useJobStore
+import { useJobStore } from "../../../zustand/stores/job-zustand";
 import DataTable from "react-data-table-component";
 import { reactTableStyles } from "../../../core/constants/styles";
 import { useHandleErrors } from "../../../hooks/useHandleErrors";
-import { AddJobModal } from "./components/AddJobModel"; // Adjusted to AddJobModal
-import { UpdateJobModal } from "./components/UpdateJobModel"; // Adjusted to UpdateJobModal
+import { AddJobModal } from "./components/AddJobModel";
+import { UpdateJobModal } from "./components/UpdateJobModel";
 import { SearchField } from "./components/Search";
 import Card from "../../../components/Card";
+import { ThreeCircles } from "react-loader-spinner";
+import AnimatedComponent from "../../../components/AnimatedComponent";
 import { confirmToast } from "../../../components/Toast";
 
 export function Jobs() {
-  // Adjusted to Jobs
-  const addJobModalRef = useRef(null); // Adjusted to addJobModalRef
-  const updateJobModalRef = useRef(null); // Adjusted to updateJobModalRef
+  const addJobModalRef = useRef(null);
+  const updateJobModalRef = useRef(null);
 
   const showAddModal = () => {
-    addJobModalRef.current.showModal(); // Adjusted to addJobModalRef
+    addJobModalRef.current.showModal();
   };
 
   const showUpdateModal = () => {
-    updateJobModalRef.current.showModal(); // Adjusted to updateJobModalRef
+    updateJobModalRef.current.showModal();
   };
 
   const {
     loading,
     statusMessage,
     hasErrors,
-    getJobs, // Adjusted to getJobs
-    addJob, // Adjusted to addJob
-    updateJob, // Adjusted to updateJob
+    getJobs,
+    addJob,
+    updateJob,
     filter,
-    filteredJobData, // Adjusted to filteredJobData
-    setSelectedJob, // Adjusted to setSelectedJob
-    selectedJob, // Adjusted to selectedJob
+    filteredJobData,
+    setSelectedJob,
+    selectedJob,
     removeJob,
-  } = useJobStore(); // Adjusted to useJobStore
+  } = useJobStore();
 
   useHandleErrors(hasErrors, statusMessage);
 
@@ -46,37 +47,39 @@ export function Jobs() {
   );
 
   useEffect(() => {
-    getJobs(); // Adjusted to getJobs
-  }, [getJobs]); // Adjusted to getJobs
+    getJobs();
+  }, [getJobs]);
 
   const handleUpdateButtonClick = (row) => {
     showUpdateModal();
-    setSelectedJob(row); // Adjusted to setSelectedJob
+    setSelectedJob(row);
   };
   const handleRemoveButtonClick = (row) => {
     confirmToast(() => removeJob(row.job_auto_id));
   };
   const jobColumns = [
-    // Adjusted to jobColumns
     {
       name: "Job Title",
-      cell: (row) => row.title, // Adjusted to title
+      cell: (row) => row.title,
     },
     {
       name: "Expire Date",
       cell: function (row) {
         return new Date(row.expire_date).toLocaleDateString("en-CA");
-      }, // Adjusted to title
+      },
     },
     {
       name: "Link",
-      cell: (row) => row.link, // Adjusted to title
-      minWidth: "50rem",
-      grow: 1,
+      cell: (row) => (
+        <a className="link link-primary" href={row.link}>
+          Link
+        </a>
+      ),
+      minWidth: "10rem",
     },
     {
       name: "Status",
-      cell: (row) => (row.status === 1 ? "Active" : "Inactive"), // Adjusted to title
+      cell: (row) => (row.status === 1 ? "Active" : "Inactive"),
     },
     {
       name: "Actions",
@@ -86,13 +89,13 @@ export function Jobs() {
           <div>
             <button
               className="btn btn-primary btn-sm rounded-none text-white font-inter"
-              onClick={() => handleUpdateButtonClick(row)} // Adjusted to handleUpdateButtonClick
+              onClick={() => handleUpdateButtonClick(row)}
             >
               Update
             </button>
             <button
               className="btn btn-error btn-sm rounded-none text-white font-inter ml-2"
-              onClick={() => handleRemoveButtonClick(row)} // Adjusted to handleUpdateButtonClick
+              onClick={() => handleRemoveButtonClick(row)}
             >
               Remove
             </button>
@@ -104,41 +107,56 @@ export function Jobs() {
 
   return (
     <>
-      <Card title="MANAGE JOBS">
-        <div className="font-inter">
-          <button
-            className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
-            type="submit"
-            onClick={() => showAddModal()}
-          >
-            Add Job
-          </button>
-
-          <AddJobModal // Adjusted to AddJobModal
-            addJob={addJob} // Adjusted to addJob
-            loading={loading}
-            addJobModalRef={addJobModalRef} // Adjusted to addJobModalRef
+      {loading === true ? (
+        <div className="w-screen h-[90vh] flex items-center justify-center">
+          <ThreeCircles
+            height="100"
+            width="100"
+            color="#570DF8"
+            visible={true}
+            ariaLabel="three-circles-rotating"
           />
-          <UpdateJobModal // Adjusted to UpdateJobModal
-            updateJob={updateJob} // Adjusted to updateJob
-            loading={loading}
-            selectedJob={selectedJob} // Adjusted to selectedJob
-            updateJobModalRef={updateJobModalRef} // Adjusted to updateJobModalRef
-          />
-
-          <SearchField handleFilter={handleFilter} />
-
-          <div className="table-border">
-            <DataTable
-              columns={jobColumns} // Adjusted to jobColumns
-              data={filteredJobData} // Adjusted to filteredJobData
-              progressPending={loading}
-              pagination
-              customStyles={reactTableStyles}
-            />
-          </div>
         </div>
-      </Card>
+      ) : (
+        <AnimatedComponent>
+          {" "}
+          <Card title="MANAGE JOBS">
+            <div className="font-inter">
+              <button
+                className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
+                type="submit"
+                onClick={() => showAddModal()}
+              >
+                Add Job
+              </button>
+
+              <AddJobModal
+                addJob={addJob}
+                loading={loading}
+                addJobModalRef={addJobModalRef}
+              />
+              <UpdateJobModal
+                updateJob={updateJob}
+                loading={loading}
+                selectedJob={selectedJob}
+                updateJobModalRef={updateJobModalRef}
+              />
+
+              <SearchField handleFilter={handleFilter} />
+
+              <div className="table-border">
+                <DataTable
+                  columns={jobColumns}
+                  data={filteredJobData}
+                  progressPending={loading}
+                  pagination
+                  customStyles={reactTableStyles}
+                />
+              </div>
+            </div>
+          </Card>
+        </AnimatedComponent>
+      )}
     </>
   );
 }

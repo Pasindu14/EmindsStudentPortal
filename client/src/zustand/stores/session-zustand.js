@@ -7,7 +7,8 @@ import {
   getBatches,
   getCourses,
   uploadSessionSlide,
-} from "../actions/masterActions"; // Make sure you have sessionActions similar to masterActions
+} from "../actions/master-actions";
+import { ERROR_MESSAGE } from "../../core/constants/messages";
 
 const useSessionStore = create((set, get) => ({
   sessionData: [],
@@ -33,10 +34,10 @@ const useSessionStore = create((set, get) => ({
           batchData: batchResponse.data.data,
         }));
       } else {
-        setError(set, courseResponse.data.error || batchResponse.data.error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   setSelectedSession: (session) => {
@@ -50,7 +51,7 @@ const useSessionStore = create((set, get) => ({
     }));
     try {
       const response = await getSessions();
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -60,17 +61,17 @@ const useSessionStore = create((set, get) => ({
           statusMessage: "",
         }));
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   addSession: async (formData) => {
     setInitial(set);
     try {
       const response = await addSession(formData);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         const lastInsertedId = response.data.data.insertId;
 
@@ -89,17 +90,17 @@ const useSessionStore = create((set, get) => ({
           await get().getSessions();
         }
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   updateSession: async (formData) => {
     setInitial(set);
     try {
       const response = await updateSession(formData);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -108,17 +109,17 @@ const useSessionStore = create((set, get) => ({
         }));
         await get().getSessions();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   removeSession: async (id) => {
     setInitial(set);
     try {
       const response = await removeSession(id);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -127,17 +128,17 @@ const useSessionStore = create((set, get) => ({
         }));
         await get().getSessions();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   filter: (searchTerm) => {
     const filteredSessionData = get().sessionData.filter(
       (session) =>
         session.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        session.course_code.toLowerCase().includes(searchTerm.toLowerCase())
+        session.course_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     set({ filteredSessionData: filteredSessionData });
   },
@@ -147,11 +148,11 @@ function setInitial(set) {
   set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
-function setError(set, error) {
+function setError(set) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    statusMessage: error,
+    statusMessage: ERROR_MESSAGE,
   }));
 }
 

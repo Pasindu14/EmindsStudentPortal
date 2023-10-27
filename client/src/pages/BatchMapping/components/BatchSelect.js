@@ -1,5 +1,5 @@
 import React from "react";
-import { useMappingStore } from "../../../zustand/stores/mapping/mappingZustand";
+import { useMappingStore } from "../../../zustand/stores/mapping/mapping-zustand";
 import { useField } from "formik";
 
 export const BatchSelect = ({ ...props }) => {

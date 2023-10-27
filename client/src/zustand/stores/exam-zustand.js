@@ -6,7 +6,8 @@ import {
   updateExam,
   getBatches,
   getCourses,
-} from "../actions/masterActions"; // Make sure you have examActions similar to masterActions
+} from "../actions/master-actions";
+import { ERROR_MESSAGE } from "../../core/constants/messages";
 
 const useExamStore = create((set, get) => ({
   examData: [],
@@ -32,10 +33,10 @@ const useExamStore = create((set, get) => ({
           batchData: batchResponse.data.data,
         }));
       } else {
-        setError(set, courseResponse.data.error || batchResponse.data.error);
+        setError(setInitial);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   setSelectedExam: (exam) => {
@@ -61,8 +62,8 @@ const useExamStore = create((set, get) => ({
       } else {
         setError(set, error);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   addExam: async (formData) => {
@@ -80,15 +81,15 @@ const useExamStore = create((set, get) => ({
       } else {
         setError(set, error);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   updateExam: async (formData) => {
     setInitial(set);
     try {
       const response = await updateExam(formData);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -97,17 +98,17 @@ const useExamStore = create((set, get) => ({
         }));
         await get().getExams();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   removeExam: async (id) => {
     setInitial(set);
     try {
       const response = await removeExam(id);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -116,10 +117,10 @@ const useExamStore = create((set, get) => ({
         }));
         await get().getExams();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   filter: (searchTerm) => {
@@ -136,11 +137,11 @@ function setInitial(set) {
   set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
-function setError(set, error) {
+function setError(set) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    statusMessage: error,
+    statusMessage: ERROR_MESSAGE,
   }));
 }
 

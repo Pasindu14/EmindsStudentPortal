@@ -1,8 +1,7 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useExamStore } from "../../../zustand/stores/examZustand"; // Adjust this import
+import { useExamStore } from "../../../zustand/stores/exam-zustand"; // Adjust this import
 import DataTable from "react-data-table-component";
 import { reactTableStyles } from "../../../core/constants/styles";
-import { confirmToast } from "../../../components/Toast";
 import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { AddExamModel } from "./components/AddExamModel";
 import { UpdateExamModel } from "./components/UpdateExamModel";
@@ -35,11 +34,10 @@ export function Exams() {
     filteredExamData,
     setSelectedExam,
     selectedExam,
-    removeExam,
     loadCourseAndBatchData,
     setSelectedCourseCode,
     setSelectedBatchCode,
-  } = useExamStore(); // Adjusted store hook
+  } = useExamStore();
 
   useHandleErrors(hasErrors, statusMessage);
 
@@ -61,7 +59,6 @@ export function Exams() {
   };
 
   const examColumns = [
-    // Adjusted columns to reflect exam data
     {
       name: "Exam Code",
       cell: (row) => row.exam_code,
@@ -116,25 +113,24 @@ export function Exams() {
               </button>
 
               <AddExamModel
-                addExam={addExam} // Adjusted prop names and values
+                addExam={addExam}
                 loading={loading}
                 addExamModalRef={addExamModalRef}
                 setSelectedCourseCode={setSelectedCourseCode}
                 setSelectedBatchCode={setSelectedBatchCode}
-                // Adjusted ref name
               />
               <UpdateExamModel
-                updateExam={updateExam} // Adjusted prop names and values
+                updateExam={updateExam}
                 loading={loading}
-                selectedExam={selectedExam} // Adjusted prop name
-                updateExamModalRef={updateExamModalRef} // Adjusted ref name
+                selectedExam={selectedExam}
+                updateExamModalRef={updateExamModalRef}
               />
 
               <SearchField handleFilter={handleFilter} />
               <div className="table-border">
                 <DataTable
-                  columns={examColumns} // Adjusted columns prop value
-                  data={filteredExamData} // Adjusted data prop value
+                  columns={examColumns}
+                  data={filteredExamData}
                   progressPending={loading}
                   pagination
                   customStyles={reactTableStyles}

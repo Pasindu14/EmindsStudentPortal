@@ -1,10 +1,10 @@
 import React from "react";
-import { useMappingStore } from "../../../zustand/stores/mapping/mapping-zustand";
+import { useBatchStore } from "../../../../zustand/stores/batches-zustand";
 import { useField } from "formik";
 
 export const CourseSelect = ({ ...props }) => {
   const [field, meta] = useField(props);
-  const { courseData } = useMappingStore();
+  const { courseData } = useBatchStore();
 
   return (
     <div className="form-control">

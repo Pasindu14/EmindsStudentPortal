@@ -1,12 +1,14 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import { useBatchStore } from "../../../zustand/stores/batchZustand"; // Update accordingly
+import { useBatchStore } from "../../../zustand/stores/batches-zustand";
 import DataTable from "react-data-table-component";
-import { reactTableStyles } from "../../../core/constants/styles"; // Update accordingly
-import { confirmToast } from "../../../components/Toast"; // Update accordingly
-import { useHandleErrors } from "../../../hooks/useHandleErrors"; // Update accordingly
+import { reactTableStyles } from "../../../core/constants/styles";
+import { useHandleErrors } from "../../../hooks/useHandleErrors";
 import { AddBatchModal } from "./components/AddBatchModel";
-import { UpdateBatchModel } from "./components/UpdateBatchModel";
-import { SearchField } from "./components/Search"; // Update accordingly
+import { UpdateBatchModal } from "./components/UpdateBatchModel";
+import { SearchField } from "./components/Search";
+import { formatDate } from "../../../helpers/commonHelpers";
+import { ThreeCircles } from "react-loader-spinner";
+import AnimatedComponent from "../../../components/AnimatedComponent";
 import Card from "../../../components/Card";
 
 export function Batches() {
@@ -30,9 +32,9 @@ export function Batches() {
     updateBatch,
     filter,
     filteredBatchData,
-    setSelectedBatch,
     selectedBatch,
-    removeBatch,
+    loadCourseData,
+    setSelectedBatch,
   } = useBatchStore(); // Update accordingly
 
   useHandleErrors(hasErrors, statusMessage);
@@ -46,9 +48,10 @@ export function Batches() {
 
   useEffect(() => {
     getBatches();
-  }, [getBatches]);
+    loadCourseData();
+  }, [getBatches, loadCourseData]);
 
-  const handleAddButtonClick = (row) => {
+  const handleUpdateButtonClick = (row) => {
     showUpdateModal();
     setSelectedBatch(row);
   };
@@ -68,11 +71,11 @@ export function Batches() {
     },
     {
       name: "Start Date",
-      cell: (row) => new Date(row.start_date).toLocaleDateString("en-CA"),
+      cell: (row) => formatDate(row.start_date),
     },
     {
       name: "End Date",
-      cell: (row) => new Date(row.end_date).toLocaleDateString("en-CA"),
+      cell: (row) => formatDate(row.end_date),
     },
     {
       name: "Status",
@@ -93,7 +96,7 @@ export function Batches() {
           <div>
             <button
               className="btn btn-primary btn-sm rounded-none text-white font-inter"
-              onClick={() => handleAddButtonClick(row)}
+              onClick={() => handleUpdateButtonClick(row)}
             >
               Update
             </button>
@@ -105,41 +108,55 @@ export function Batches() {
 
   return (
     <>
-      <Card title="MANAGE BATCHES">
-        <div className="font-inter">
-          <button
-            className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
-            type="submit"
-            onClick={() => showAddModal()}
-          >
-            Add new batch
-          </button>
-
-          <AddBatchModal
-            addBatch={addBatch}
-            loading={loading}
-            addBatchModalRef={addBatchModalRef}
+      {loading === true ? (
+        <div className="w-screen h-[90vh] flex items-center justify-center">
+          <ThreeCircles
+            height="100"
+            width="100"
+            color="#570DF8"
+            visible={true}
+            ariaLabel="three-circles-rotating"
           />
-          <UpdateBatchModel
-            updateBatch={updateBatch}
-            loading={loading}
-            selectedBatch={selectedBatch}
-            updateBatchModalRef={updateBatchModalRef}
-          />
-
-          <SearchField handleFilter={handleFilter} />
-
-          <div className="table-border">
-            <DataTable
-              columns={batchColumns}
-              data={filteredBatchData}
-              progressPending={loading}
-              pagination
-              customStyles={reactTableStyles}
-            />
-          </div>
         </div>
-      </Card>
+      ) : (
+        <AnimatedComponent>
+          <Card title="MANAGE BATCHES">
+            <div className="font-inter">
+              <button
+                className="btn btn-primary rounded-none text-white mt-4 max-w-xs font-inter mb-1"
+                type="submit"
+                onClick={() => showAddModal()}
+              >
+                Add new batch
+              </button>
+
+              <AddBatchModal
+                addBatch={addBatch}
+                loading={loading}
+                addBatchModalRef={addBatchModalRef}
+              />
+              <UpdateBatchModal
+                updateBatch={updateBatch}
+                loading={loading}
+                selectedBatch={selectedBatch}
+                updateBatchModalRef={updateBatchModalRef}
+              />
+
+              <SearchField handleFilter={handleFilter} />
+
+              <div className="table-border">
+                <DataTable
+                  columns={batchColumns}
+                  data={filteredBatchData}
+                  progressPending={loading}
+                  pagination
+                  customStyles={reactTableStyles}
+                />
+              </div>
+            </div>
+          </Card>
+        </AnimatedComponent>
+      )}
     </>
   );
 }

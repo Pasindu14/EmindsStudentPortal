@@ -5,9 +5,9 @@ import { SearchField } from "./components/Search";
 import Card from "../../components/Card";
 import { ThreeCircles } from "react-loader-spinner";
 import AnimatedComponent from "../../components/AnimatedComponent";
-import { useMappingStore } from "../../zustand/stores/mapping/mappingZustand";
+import { useMappingStore } from "../../zustand/stores/mapping/mapping-zustand";
 import { confirmToast } from "../../components/Toast";
-import { addMappingModel } from "../../zustand/actions/masterActions";
+import { addMappingModel } from "../../zustand/actions/master-actions";
 import { AddMappingModel } from "./components/AddMappingModel";
 import { useHandleErrors } from "../../hooks/useHandleErrors";
 

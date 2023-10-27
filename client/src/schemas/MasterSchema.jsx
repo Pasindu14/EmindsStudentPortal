@@ -16,28 +16,21 @@ export const courseSchema = yup.object().shape({
 export const batchSchema = yup.object().shape({
   batch_no: yup.string().required("Batch number is required"),
   batch_name: yup.string().required("Batch name is required"),
-  zoom_link: yup
-    .string()
-    .url("Must be a valid URL")
-    .required("Zoom link is required"),
-  course_auto_id: yup
+  zoom_link: yup.string().required("Zoom link is required"),
+  course: yup
     .number()
     .positive("Must be a positive number")
-    .required("Course Auto ID is required"),
+    .required("Course is required"),
   start_date: yup.date().required("Start date is required"),
   end_date: yup
     .date()
     .required("End date is required")
     .min(yup.ref("start_date"), "End date can't be before start date"),
-  status: yup.string().required("Status is required"),
   password: yup
     .string()
     .min(6, "Minimum 6 characters")
     .required("Password is required"),
-  price: yup
-    .number()
-    .positive("Must be a positive number")
-    .required("Price is required"),
+  price: yup.number().required("Price is required"),
 });
 
 export const examSchema = yup.object().shape({

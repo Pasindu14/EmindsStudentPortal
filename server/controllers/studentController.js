@@ -62,7 +62,6 @@ exports.addStudent = (req, res) => {
 
 exports.updateStudent = (req, res) => {
   const { name, phone, address, nic, email, birthDay, auto_id } = req.body;
-
   const updateSql = `
         UPDATE students
         SET name = ?, phoneNumber = ?, address = ?, nic = ?, email = ?, birthDay = ?

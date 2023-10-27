@@ -35,7 +35,7 @@ exports.addBatch = (req, res) => {
   } = req.body;
 
   const insertSql =
-    "INSERT INTO batches ( batch_no, batch_name, zoom_link, course_auto_id, start_date, end_date, status, password, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO batches ( batch_no, batch_name, zoom_link, course_auto_id, start_date, end_date, status, password, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   db.query(
     insertSql,

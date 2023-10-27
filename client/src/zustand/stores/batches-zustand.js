@@ -2,18 +2,36 @@ import { create } from "zustand";
 import {
   addBatch,
   getBatches,
+  getCourses,
   removeBatch,
   updateBatch,
-} from "../actions/masterActions"; // Make sure you have batchActions similar to masterActions
+} from "../actions/master-actions";
+import { ERROR_MESSAGE } from "../../core/constants/messages";
 
 const useBatchStore = create((set, get) => ({
+  courseData: [],
   batchData: [],
   filteredBatchData: [],
   loading: false,
   hasErrors: false,
   statusMessage: "",
   selectedBatch: null,
+  loadCourseData: async () => {
+    try {
+      const [courseResponse] = await Promise.all([getCourses()]);
+      if (courseResponse.data.status === "success") {
+        set(() => ({
+          courseData: courseResponse.data.data,
+        }));
+      } else {
+        setError(set, courseResponse.data.error);
+      }
+    } catch (error) {
+      setError(set, error);
+    }
+  },
   setSelectedBatch: (batch) => {
+    console.log(batch);
     set(() => ({
       selectedBatch: batch,
     }));
@@ -24,7 +42,7 @@ const useBatchStore = create((set, get) => ({
     }));
     try {
       const response = await getBatches();
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -34,17 +52,17 @@ const useBatchStore = create((set, get) => ({
           statusMessage: "",
         }));
       } else {
-        setError(set, error);
+        setError(set);
       }
     } catch (error) {
-      setError(set, error);
+      setError(set);
     }
   },
   addBatch: async (formData) => {
     setInitial(set);
     try {
       const response = await addBatch(formData);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -53,18 +71,17 @@ const useBatchStore = create((set, get) => ({
         }));
         await get().getBatches();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   updateBatch: async (formData) => {
     setInitial(set);
     try {
       const response = await updateBatch(formData);
-
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -73,17 +90,17 @@ const useBatchStore = create((set, get) => ({
         }));
         await get().getBatches();
       } else {
-        setError(set, error);
+        setError(set);
       }
     } catch (error) {
-      setError(set, error);
+      setError(set);
     }
   },
   removeBatch: async (id) => {
     setInitial(set);
     try {
       const response = await removeBatch(id);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -92,10 +109,10 @@ const useBatchStore = create((set, get) => ({
         }));
         await get().getBatches();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   filter: (searchTerm) => {
@@ -112,11 +129,11 @@ function setInitial(set) {
   set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
-function setError(set, error) {
+function setError(set) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    statusMessage: error,
+    statusMessage: ERROR_MESSAGE,
   }));
 }
 

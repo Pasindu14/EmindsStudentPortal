@@ -4,7 +4,8 @@ import {
   getJobs,
   removeJob,
   updateJob,
-} from "../actions/masterActions";
+} from "../actions/master-actions";
+import { ERROR_MESSAGE } from "../../core/constants/messages";
 
 const useJobStore = create((set, get) => ({
   jobData: [],
@@ -24,7 +25,7 @@ const useJobStore = create((set, get) => ({
     }));
     try {
       const response = await getJobs();
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -34,17 +35,17 @@ const useJobStore = create((set, get) => ({
           statusMessage: "",
         }));
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   addJob: async (formData) => {
     setInitial(set);
     try {
       const response = await addJob(formData);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -53,17 +54,17 @@ const useJobStore = create((set, get) => ({
         }));
         await get().getJobs();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   updateJob: async (formData) => {
     setInitial(set);
     try {
       const response = await updateJob(formData);
-      const { status, data, error } = response.data;
+      const { status, data } = response.data;
       if (status === "success") {
         set(() => ({
           hasErrors: false,
@@ -72,10 +73,10 @@ const useJobStore = create((set, get) => ({
         }));
         await get().getJobs();
       } else {
-        setError(set, error);
+        setError(set);
       }
-    } catch (error) {
-      setError(set, error);
+    } catch (_) {
+      setError(set);
     }
   },
   removeJob: async (id) => {
@@ -98,10 +99,8 @@ const useJobStore = create((set, get) => ({
     }
   },
   filter: (searchTerm) => {
-    const filteredJobData = get().jobData.filter(
-      (job) =>
-        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.job_auto_id.toString().includes(searchTerm)
+    const filteredJobData = get().jobData.filter((job) =>
+      job.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     set({ filteredJobData: filteredJobData });
   },
@@ -111,11 +110,11 @@ function setInitial(set) {
   set(() => ({ loading: true, statusMessage: "", hasErrors: false }));
 }
 
-function setError(set, error) {
+function setError(set) {
   set(() => ({
     hasErrors: true,
     loading: false,
-    statusMessage: error,
+    statusMessage: ERROR_MESSAGE,
   }));
 }
 
