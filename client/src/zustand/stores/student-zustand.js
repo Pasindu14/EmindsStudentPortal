@@ -37,7 +37,7 @@ const useStudentStore = create((set, get) => ({
       } else {
         setError(set);
       }
-    } catch (_) {
+    } catch (e) {
       setError(set);
     }
   },
